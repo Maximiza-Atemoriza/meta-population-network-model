@@ -8,6 +8,7 @@ authors = ["RodroVMS <democlesvanshepars@gmail.com>"]
 python = "~3.9"
 dash = "^2.0.0"
 numpy = "^1.21.4"
+pandas = "^1.3.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
