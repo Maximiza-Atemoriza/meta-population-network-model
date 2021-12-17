@@ -7,4 +7,4 @@ endif
 	poetry install
 
 run: install
-	poetry run python dash_app/main.py
+	poetry run python dash_app/index.py
