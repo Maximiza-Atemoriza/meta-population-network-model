@@ -10,7 +10,7 @@ model_definition = dbc.Col([
         -----
         ### Compartmental model definition
         -----
-        This section will guide you throw the set up of a model that can be used in a network
+        This section will guide you through the set up of a model that can be used in a network
         simulation. If you already have set up your model this section can also be used to modify
         or delete any existent model."""),
     dcc.Markdown(
