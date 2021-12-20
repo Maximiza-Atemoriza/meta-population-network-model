@@ -133,3 +133,13 @@ def view_model(selected_model):
                 model['features'], 
                 model['equations'], 
                 [{'label': 'No Model', 'value' : 0}] + [ {'label': model, 'value': model} for model in ModelRepository.get_model_names() ])
+
+@app.callback(
+    Output('selected-model', 'value'),
+    Input('delete-btn', 'n_clicks'),
+    State('selected-model', 'value')
+)
+def delete_model(n_clicks, model_name):
+    if model_name:
+        ModelRepository.remove_model(model_name)
+    return 0

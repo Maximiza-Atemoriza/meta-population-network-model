@@ -1,6 +1,7 @@
 # This file provides an interface to handle CRUD operations for models
 import json
 from metapopulation_network_model.compile import compile_model
+import os
 
 class ModelRepository:
     models = None # dictionary to store the models in memory
@@ -49,6 +50,7 @@ class ModelRepository:
     
     @staticmethod
     def remove_model(name):
-        del models[name]
-        with open(f'{path}/models.json', 'w') as f:
-            json.dump(models, f)
+        os.remove(ModelRepository.models[name]['code'])
+        del ModelRepository.models[name]
+        with open(f'{ModelRepository.path}/models.json', 'w') as f:
+            json.dump(ModelRepository.models, f)
