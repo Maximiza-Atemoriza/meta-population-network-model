@@ -3,14 +3,15 @@ import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, dcc, html
 from app import app
-from dash_app import models
+from dash_app import add_model
+
 # navigation bar of the application
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(
             dbc.NavLink(
                 "Models",
-                href='/models'
+                href='/add_model'
             )
         )
     ],
@@ -131,8 +132,8 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 
 def display_page(pathname):
-    if pathname == '/models':
-        return models.layout
+    if pathname == '/add_model':
+        return add_model.layout
     else:
         return layout
 

@@ -2,9 +2,9 @@ from io import open_code
 from .cmp.parser import Parser
 from .cmp.collector import CollectorVisitor
 
-
-
-def compile_model(text, model_name):
+# Compiles a system of equations given by text
+# to a file called model_name.py located at path
+def compile_model(text, model_name, path):
     p = Parser()
     ast = p.parse(text)
     c = CollectorVisitor()
@@ -22,7 +22,5 @@ def compile_model(text, model_name):
     code += '\t@staticmethod\n'
     code += '\tdef solve(initial_conditions, t, params):\n'
     code += f'\t\treturn odeint({model_name}.deriv, initial_conditions, t, args=params)\n'
-    f = open(f'metapopulation_network_model/models/{model_name}.py', 'w')
-    f.write(code)
-    f.close()
-
+    with open(f'{path}/{model_name}.py', 'w') as f:
+        f.write(code)
