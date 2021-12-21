@@ -42,7 +42,7 @@ class ModelRepository:
                 'description' : description,
                 'features': features,
                 'equations': equations,
-                'code': f'{ModelRepository.path}/{name}.py'
+                'code': f'{name}.py'
                 }
 
         with open(f'{ModelRepository.path}/models.json', 'w') as f:
