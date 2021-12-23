@@ -13,6 +13,7 @@ dash-bootstrap-components = "^1.0.0"
 scipy = "^1.7.2"
 ply = "^3.11"
 matplotlib = "^3.5.0"
+dash-cytoscape = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
