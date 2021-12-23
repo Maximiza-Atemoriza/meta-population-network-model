@@ -1,6 +1,6 @@
 from io import open_code
-from cmp.parser import Parser
-from cmp.collector import CollectorVisitor
+from .cmp.parser import Parser
+from .cmp.collector import CollectorVisitor
 
 # Compiles a system of equations given by text
 # to a file called model_name.py located at path
