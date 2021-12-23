@@ -1,6 +1,6 @@
 from io import open_code
-from .cmp.parser import Parser
-from .cmp.collector import CollectorVisitor
+from cmp.parser import Parser
+from cmp.collector import CollectorVisitor
 
 
 

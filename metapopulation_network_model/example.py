@@ -10,7 +10,7 @@ text = r"""
 \frac{dR}{dt} = \gamma I
 """
 
-model_name = 'ModelSIR'
+model_name = 'SIR'
 #compile_model(text, model_name)
 
 
