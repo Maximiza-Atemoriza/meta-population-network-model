@@ -39,5 +39,5 @@ def compile_model(text, model_name, path):
     code += '\t@staticmethod\n'
     code += '\tdef solve(y, t, params):\n'
     code += f'\t\treturn odeint({model_name}.deriv, y, t, args=(params,))\n'
-    with open(f'{model_name}.py', 'w') as f:
+    with open(f'{path}/{model_name}.py', 'w') as f:
         f.write(code)

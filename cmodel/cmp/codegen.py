@@ -13,7 +13,6 @@ class CodeGenerator(object):
     @visitor.when(SystemNode)
     def visit(self, node: SystemNode, interpolation=False):
         self.interpolation = interpolation
-        print(interpolation)
         return [self.visit(e) for e in node.equations]
     
     @visitor.when(EquationNode)
