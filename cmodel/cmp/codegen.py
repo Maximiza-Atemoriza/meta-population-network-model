@@ -3,12 +3,16 @@ from .ast import *
 
 
 class CodeGenerator(object):
+    def __init__(self):
+        self.interpolation = False
+
     @visitor.on('node')
     def visit(self, node):
         pass
 
     @visitor.when(SystemNode)
-    def visit(self, node: SystemNode):
+    def visit(self, node: SystemNode, interpolation=False):
+        self.interpolation = interpolation
         return [self.visit(e) for e in node.equations]
     
     @visitor.when(EquationNode)
@@ -45,13 +49,21 @@ class CodeGenerator(object):
 
     @visitor.when(SymbolNode)
     def visit(self, node: SymbolNode):
+        if self.interpolation:
+            return '{' + node.value + '}'
         return node.value
 
     @visitor.when(IdentifierNode)
     def visit(self, node: IdentifierNode):
         if node.subgroup:
-            return f'{self.visit(node.symbol)}_{self.visit(node.subgroup)}'
-        return self.visit(node.symbol)
+            result = f'{self.visit(node.symbol)}_{self.visit(node.subgroup)}'
+        else:
+            result = self.visit(node.symbol)
+
+        if self.interpolation:
+            result = '{' + result + '}'
+
+        return result
 
     @visitor.when(ParenthesisNode)
     def visit(self, node: ParenthesisNode):

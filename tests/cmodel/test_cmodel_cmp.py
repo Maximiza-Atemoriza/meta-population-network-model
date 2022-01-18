@@ -1,6 +1,6 @@
 import importlib
 import numpy as np
-from compile import compile_model
+from cmodel.cmp.compile import compile_model
 import matplotlib.pyplot as plt
 
 
@@ -11,8 +11,7 @@ text = r"""
 """
 
 model_name = 'SIR'
-#compile_model(text, model_name)
-
+compile_model(text, model_name, './tests/cmodel')
 
 # Total population, N.
 N = 1000
@@ -25,17 +24,20 @@ beta, gamma = 0.2, 1./10
 # A grid of time points (in days)
 t = np.linspace(0, 160, 160)
 
+pdict = {
+    'gamma': gamma,
+    'N': N,
+    'beta': beta
+}
 
-
-
-module = importlib.import_module(f'models.{model_name}')
+module = importlib.import_module(f'tests.cmodel.{model_name}')
 model = getattr(module, model_name)
 
 
 
 # you need to place the sets and parameters in the same order as they appear in the source file generated 
-y0 = S0, I0, R0
-params = (N, beta, gamma)
+y0 = [S0, I0, R0]
+params = [pdict[p] for p in model.params]
 # you can consult the order with
 print(model.sets)
 print(model.params)
@@ -60,4 +62,4 @@ legend.get_frame().set_alpha(0.5)
 for spine in ('top', 'right', 'bottom', 'left'):
     ax.spines[spine].set_visible(False)
 plt.show()
-plt.savefig('a.png')
+plt.savefig('a.png') 

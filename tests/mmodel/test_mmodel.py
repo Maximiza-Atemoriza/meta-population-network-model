@@ -1,22 +1,38 @@
-from network import Network, Node, Edge 
-from simulation import simulate
-import numpy as np
+from mmodel.flux import FluxMetaModel
 import matplotlib.pyplot as plt
+import numpy as np
 
-nodes = [
-    Node(0, "0", "SIR", [999,1,0], [1000, 0.2, 0.1]),
-    Node(1, "1", "SIR", [999,1,0], [1000, 0.2, 0.1])
-]
+t = np.linspace(0,160,160)
+# Test constructor
 
-edges = [
-    Edge(0,1,0.8),
-    Edge(1,0,0.1)
-]
+net_file = './tests/mmodel/net.json'
+name = 'test_network'
 
-net = Network(nodes, edges)
-t = np.linspace(0,160, 160)
-result = simulate(net, t)
-S0,I0, R0, S1, I1, R1 = result.T
+with open(net_file, 'w') as f:
+    f.write('This is a network file') 
+
+mmodel = FluxMetaModel(name, net_file)
+
+with open(net_file, 'w') as f:
+    f.write('This is a different network file, so the hash should be different too and the model will be compiled again')
+
+mmodel.simulate('./tests/mmodel/input.json', t)
+
+config_file = './tests/mmodel/test_network.cnf.json'
+
+mmodel2 = FluxMetaModel(config_file)
+
+results = mmodel2.simulate('./tests/mmodel/test_input.json', t)
+
+mmodel2.export_input('./tests/mmodel/some_input.json')
+
+S0 = results[1]['S']
+I0 = results[1]['I']
+R0 = results[1]['R']
+
+S1 = results[2]['S']
+I1 = results[2]['I']
+R1 = results[2]['R']
 
 #Plotting shit
 # fig = plt.figure(facecolor='w')
@@ -56,4 +72,7 @@ for spine in ('top', 'right', 'bottom', 'left'):
     ax1.spines[spine].set_visible(False)
 
 plt.show()
-plt.savefig('a.png')
+plt.savefig('./tests/mmodel/b.png')
+
+
+

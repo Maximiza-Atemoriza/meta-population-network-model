@@ -3,8 +3,8 @@ from .ast import *
 from .codegen import CodeGenerator
 
 
-class CollectorVisitor(object):
-    def __init__(self) -> None:
+class CollectorVisitor:
+    def __init__(self):
         self.sets = []
         self.variable = None
         self.parameters = set()
@@ -18,6 +18,7 @@ class CollectorVisitor(object):
     def visit(self, node: SystemNode):
         for e in node.equations:
             self.visit(e)
+        return self.sets, self.variable, self.parameters.difference(set(self.sets))
     
     @visitor.when(EquationNode)
     def visit(self, node : EquationNode):

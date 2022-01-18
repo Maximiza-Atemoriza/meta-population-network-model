@@ -1,0 +1,16 @@
+<node_list>
+    <node id = "1">
+        <y S="0" I="0" R="0"/>
+        <params beta = "0" gamma = "0" />
+    </node>
+
+    <node id = "2">
+        <y S="0" I="0" R="0"/>
+        <params beta = "0" gamma = "0" />
+    </node>
+
+    <node id = "3">
+        <y S="0" I="0" R="0"/>
+        <params beta = "0" gamma = "0" />
+    </node>
+</node_list>
