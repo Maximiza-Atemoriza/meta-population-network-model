@@ -6,5 +6,6 @@ ifndef POETRY
 endif
 	poetry install
 
-run: install
-	poetry run python dash_app/index.py
+run: 
+	install
+	poetry run python ./src/index.py
