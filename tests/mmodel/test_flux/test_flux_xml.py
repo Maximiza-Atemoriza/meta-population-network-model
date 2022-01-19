@@ -5,26 +5,12 @@ import numpy as np
 t = np.linspace(0,160,160)
 # Test constructor
 
-net_file = './tests/mmodel/net.json'
-name = 'test_network'
-
-with open(net_file, 'w') as f:
-    f.write('This is a network file') 
+net_file = './tests/mmodel/test_flux/example_network.json'
+name = 'example_network'
 
 mmodel = FluxMetaModel(name, net_file)
 
-with open(net_file, 'w') as f:
-    f.write('This is a different network file, so the hash should be different too and the model will be compiled again')
-
-mmodel.simulate('./tests/mmodel/input.json', t)
-
-config_file = './tests/mmodel/test_network.cnf.json'
-
-mmodel2 = FluxMetaModel(config_file)
-
-results = mmodel2.simulate('./tests/mmodel/test_input.json', t)
-
-mmodel2.export_input('./tests/mmodel/some_input.json')
+results = mmodel.simulate('./tests/mmodel/test_flux/input.xml', t)
 
 S0 = results[1]['S']
 I0 = results[1]['I']
@@ -72,7 +58,7 @@ for spine in ('top', 'right', 'bottom', 'left'):
     ax1.spines[spine].set_visible(False)
 
 plt.show()
-plt.savefig('./tests/mmodel/b.png')
+plt.savefig('./tests/mmodel/test_flux/result_xml.png')
 
 
 

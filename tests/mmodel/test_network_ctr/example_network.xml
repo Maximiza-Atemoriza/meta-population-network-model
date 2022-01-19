@@ -1,0 +1,19 @@
+<node_list>
+    <node id = "1"  label= "node1" cmodel="SIR">
+        <targets>
+            
+        </targets>
+    </node>
+
+    <node id = "2"  label= "node2" cmodel="SIR">
+        <targets>
+            <target id="1" weight="0.5"/>
+        </targets>
+    </node>
+
+    <node id = "3"  label= "node3" cmodel="SIR">
+        <targets>
+            <target id="1" weight="0.5"/>
+        </targets>
+    </node>
+</node_list>
