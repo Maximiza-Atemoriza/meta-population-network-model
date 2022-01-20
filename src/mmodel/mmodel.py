@@ -156,9 +156,9 @@ class MetaModel:
         for node in nodes:
             tree_node = root.createElement(node["NLABEL"])
 
-            tree_node.setAttribute("id" ,  node["NID"])
-            tree_node.setAttribute("label" ,  node["NLABEL"])
-            tree_node.setAttribute("cmodel" ,  node["NCMODEL"])
+            tree_node.setAttribute("id", node["NID"])
+            tree_node.setAttribute("label", node["NLABEL"])
+            tree_node.setAttribute("cmodel", node["NCMODEL"])
 
             ny = root.createElement("NY")
             nparams = root.createElement("NPARAMS")
@@ -169,9 +169,13 @@ class MetaModel:
             for key, value in node["NPARAMS"].items():
                 nparams.setAttribute(key, value)
 
-            ytext = root.createTextNode("Puede modificar los atributos de este elemento")
+            ytext = root.createTextNode(
+                "Puede modificar los atributos de este elemento"
+            )
             ny.appendChild(ytext)
-            paramstext = root.createTextNode("Puede modificar los atributos de este elemento")
+            paramstext = root.createTextNode(
+                "Puede modificar los atributos de este elemento"
+            )
             nparams.appendChild(paramstext)
 
             tree_node.appendChild(ny)
@@ -179,13 +183,10 @@ class MetaModel:
 
             xml.appendChild(tree_node)
 
-        
+        xml_str = xml.toprettyxml(indent="\t")
 
-    xml_str = xml.toprettyxml(indent="\t")
-
-    with open(file, 'w') as f:
-        f.write(xml_str)
-  
+        with open(file, "w") as f:
+            f.write(xml_str)
 
     # ---------------------------------------------------------
     # This section contains methods for importing the initial
