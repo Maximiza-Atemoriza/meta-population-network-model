@@ -10,3 +10,8 @@ In the project root run the following command:
 poetry install
 ```
 
+## Run
+
+```bash
+make run
+```
