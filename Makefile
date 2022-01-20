@@ -4,7 +4,7 @@ install:
 ifndef POETRY
     $(error "poetry is not available, please install poetry ( https://python-poetry.org/ )")
 endif
-	poetry update
+	poetry install
 
 run: install
 	poetry run python ./src/dash_app/index.py
