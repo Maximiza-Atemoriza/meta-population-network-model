@@ -1,5 +1,6 @@
 # --------------- Dash components ------------------
 from functools import reduce
+from typing import Dict, Union
 import dash
 import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
@@ -17,7 +18,9 @@ from mmodel.mmodel import MetaModel
 FLUX = 1
 SIMPLE_TRIP = 2
 
-model: MetaModel | None = None
+model: Union[MetaModel, None] = None
+result: Union[Dict, None] = None
+
 application_info = dbc.Row(
     dbc.Col(
         dcc.Markdown(
@@ -100,7 +103,6 @@ network_info = dbc.Row(
                     f"""
             -----
             ##### Network Description
-            -----
             Description of the network being used
             """
                 )
@@ -114,7 +116,6 @@ network_info = dbc.Row(
                     f"""
             -----
             ##### Network Features
-            -----
             Features from the model
             """
                 )
@@ -151,6 +152,51 @@ network_visualization = dbc.Row(
     [dbc.Col(network_graph, sm=12, md=6), dbc.Col(network_chart, sm=12, md=6)]
 )
 
+node_chart = dcc.Graph(id="node-graph")
+
+node_visualization = dbc.Row(
+    [
+        dbc.Col(
+            [
+                dcc.Markdown(
+                    f"""
+            ----- 
+            ##### Node Behaviour
+            This shows the behaviour of the node during the simulation
+            """
+                ),
+                node_chart,
+            ],
+            sm=12,
+            md=6,
+        ),
+        dbc.Col(
+            [
+                dcc.Markdown(
+                    f"""
+                    -----
+                    ##### Node Parameters
+                    This shows the model params
+                    """
+                ),
+            ],
+            sm=12,
+            md=3,
+        ),
+        dbc.Col(
+            dcc.Markdown(
+                f"""
+                -----
+                ##### Edge Parameters
+                Thish shows the edge params
+                """
+            ),
+            sm=12,
+            md=3,
+        ),
+    ]
+)
+
 layout = dbc.Container(
     [
         application_info,
@@ -158,6 +204,7 @@ layout = dbc.Container(
         param_file_input,
         network_info,
         network_visualization,
+        node_visualization,
     ]
 )
 
@@ -222,6 +269,7 @@ def simulate_network(_, input_params, input_time):
         print("exit0")
         return not_yet, go.Figure()
     print("simulating")
+    global result
     result = model.simulate(input_params, input_time)
     if result is None:
         print("simulation failed 1")
@@ -251,3 +299,31 @@ def simulate_network(_, input_params, input_time):
 
     print("exit2")
     return None, figure
+
+
+@app.callback(
+    Output("node-graph", "figure"),
+    Input("cytoscape-network", "selectedNodeData"),
+    State("input-time", "value"),
+    prevent_initial_call=True,
+)
+def simulate_node(node_data, time):
+    print("Call to node show")
+    print(node_data)
+
+    try:
+        idx = int(node_data[0]["id"])
+    except (IndexError):
+        return go.Figure()
+    # Only SIR cmodel is assumed
+    s = result[idx]["S"]
+    i = result[idx]["I"]
+    r = result[idx]["R"]
+
+    time = np.linspace(0, time, time)
+    figure = go.Figure()
+    figure.add_trace(go.Scatter(x=time, y=s, mode="lines", name="S"))
+    figure.add_trace(go.Scatter(x=time, y=i, mode="lines", name="I"))
+    figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
+
+    return figure
