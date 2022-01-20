@@ -4,6 +4,7 @@ from utils.imports import import_from_file
 from utils.hashing import hash_file
 import importlib
 import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
 # Meta Model input constants
 NAME = 'name'
@@ -144,7 +145,43 @@ class MetaModel:
             json.dump(nodes, f)
 
     def __export_input_xml__(self, nodes, file):
-        raise NotImplementedError()
+        root = minidom.Document()
+
+        xml = root.createElement("nodes")
+
+        for node in nodes:
+            tree_node = root.createElement(node["NLABEL"])
+
+            tree_node.setAttribute("id" ,  node["NID"])
+            tree_node.setAttribute("label" ,  node["NLABEL"])
+            tree_node.setAttribute("cmodel" ,  node["NCMODEL"])
+
+            ny = root.createElement("NY")
+            nparams = root.createElement("NPARAMS")
+
+            for key, value in node["NY"].items():
+                ny.setAttribute(key, value)
+
+            for key, value in node["NPARAMS"].items():
+                nparams.setAttribute(key, value)
+
+            ytext = root.createTextNode("Puede modificar los atributos de este elemento")
+            ny.appendChild(ytext)
+            paramstext = root.createTextNode("Puede modificar los atributos de este elemento")
+            nparams.appendChild(paramstext)
+
+            tree_node.appendChild(ny)
+            tree_node.appendChild(nparams)
+
+            xml.appendChild(tree_node)
+
+        
+
+    xml_str = xml.toprettyxml(indent="\t")
+
+    with open(file, 'w') as f:
+        f.write(xml_str)
+  
 
 # ---------------------------------------------------------
 # This section contains methods for importing the initial
