@@ -12,7 +12,7 @@ import numpy as np
 
 # ------------------- Meta Models ------------------
 from mmodel.flux import FluxMetaModel
-from dash_app.app import app
+from app import app
 from mmodel.mmodel import MetaModel
 
 FLUX = 1
