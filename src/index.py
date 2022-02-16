@@ -2,9 +2,8 @@ import os
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, dcc, html
-from dash_app.app import app
-
-from dash_app.network_simulation import layout as network_simulation_page
+from app import app
+from network_simulation import layout as network_simulation_page
 
 navbar = dbc.NavbarSimple(
     children=[dbc.NavItem(dbc.NavLink("About Us", href="#"))],
@@ -25,4 +24,4 @@ def display_page(pathname):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True, port=os.getenv("PORT", "8051"))
+    app.run_server(host='0.0.0.0', debug=True, port=8051)
