@@ -153,6 +153,8 @@ network_visualization = dbc.Row(
 )
 
 node_chart = dcc.Graph(id="node-graph")
+node_params = dcc.Markdown(id="node-params")
+edge_params = dcc.Markdown(id="edge-params")
 
 node_visualization = dbc.Row(
     [
@@ -162,7 +164,7 @@ node_visualization = dbc.Row(
                     f"""
             ----- 
             ##### Node Behaviour
-            This shows the behaviour of the node during the simulation
+            Visualize a node's independent behaviour
             """
                 ),
                 node_chart,
@@ -176,21 +178,25 @@ node_visualization = dbc.Row(
                     f"""
                     -----
                     ##### Node Parameters
-                    This shows the model params
+                    Visualize a nodes's parameters
                     """
                 ),
+                node_params,
             ],
             sm=12,
             md=3,
         ),
         dbc.Col(
-            dcc.Markdown(
-                f"""
+            [
+                dcc.Markdown(
+                    f"""
                 -----
                 ##### Edge Parameters
-                Thish shows the edge params
+                Visualize an edge's parameters
                 """
-            ),
+                ),
+                edge_params,
+            ],
             sm=12,
             md=3,
         ),
@@ -297,7 +303,6 @@ def simulate_network(_, input_params, input_time):
     figure.add_trace(go.Scatter(x=input_time, y=i, mode="lines", name="I"))
     figure.add_trace(go.Scatter(x=input_time, y=r, mode="lines", name="R"))
 
-    print("exit2")
     return None, figure
 
 
@@ -327,3 +332,20 @@ def simulate_node(node_data, time):
     figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
 
     return figure
+
+
+@app.callback(
+    Output("node-params", "children"), Input("cytoscape-network", "selectedNodeData")
+)
+def get_node_params(node_data):
+    return ["hola"]
+
+
+@app.callback(
+    Output("edge-params", "children"), Input("cytoscape-network", "selectedEdgeData")
+)
+def get_edge_params(node_data):
+    return ["balooo"]
+
+
+# Need to define certain call backs
