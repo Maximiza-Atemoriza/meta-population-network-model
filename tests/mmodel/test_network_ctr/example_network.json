@@ -1,30 +1,31 @@
-[
-    {        
-        "id" : 1,
-        "label" : "node1",
-        "cmodel" : "SIR",
-        
-        "targets": [
-        ]           
-    },
-    {        
-        "id" : 2,
-        "label" : "node2",
-        "cmodel" : "SIR",
-        
-        "targets": [{
-            "target" : 1,
-            "weight" : 0.5
-        }]     
-    },
-    {        
-        "id" : 3,
-        "label" : "node3",
-        "cmodel" : "SIR",
-        
-        "targets": [{
-            "target" : 1,
-            "weight" : 0.5
-        }]
+{
+    "graph": {
+        "directed" : false,
+        "nodes" : {
+            "1" : {
+                "label" : "node1",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "2" : {
+                "label" : "node2",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            }
+        },
+        "edges": [
+            {
+                "source" : "1",
+                "target" : "2",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "2",
+                "target" : "1",
+                "metadata" : {"weight" : 0.5}
+            }
+        ]
     }
-]
+}
