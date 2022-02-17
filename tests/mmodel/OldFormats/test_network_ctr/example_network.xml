@@ -17,7 +17,7 @@
 	  </node>
 	  <node id="3">
 		  <data key="d0">SIR</data>
-		  <data key="d1">node2</data>
+		  <data key="d1">node3</data>
 	  </node>
 	<edge source="2" target="1"> <data key="d2">0.5</data></edge>
 	<edge source="3" target="1"><data key="d2">0.5</data></edge>
