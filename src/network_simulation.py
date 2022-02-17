@@ -317,10 +317,15 @@ def simulate_node(node_data, time):
     print(node_data)
 
     try:
-        idx = int(node_data[0]["id"])
+        idx = node_data[0]["id"]
     except (IndexError):
         return go.Figure()
+
+    if result is None:
+        return go.Figure()
+
     # Only SIR cmodel is assumed
+    print(idx)
     s = result[idx]["S"]
     i = result[idx]["I"]
     r = result[idx]["R"]
@@ -331,6 +336,7 @@ def simulate_node(node_data, time):
     figure.add_trace(go.Scatter(x=time, y=i, mode="lines", name="I"))
     figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
 
+    print("returning calculated figure")
     return figure
 
 
