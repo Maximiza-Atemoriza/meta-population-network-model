@@ -10,9 +10,10 @@ class Node:
 
     def __str__(self):
         return f'Node(id={self.id}, label={self.label}, model={self.cmodel})'
-    
+
     def __repr__(self):
         return self.__str__()
+
 
 class Edge:
     def __init__(self, source, target, weight):
@@ -22,9 +23,10 @@ class Edge:
 
     def __str__(self):
         return f'Edge({self.source} -> {self.target}, weight={self.weight})'
-    
+
     def __repr__(self):
         return self.__str__()
+
 
 class Network:
 
@@ -32,7 +34,6 @@ class Network:
         self.nodes = []
         self.edges = []
         self.load(file)
-        
 
     def load(self, file):
         if file.endswith(".json"):
@@ -43,14 +44,22 @@ class Network:
     def __load_json(self, file):
         f = open(file)
         data = json.load(f)
-        for item in data:
+
+        graph = data["graph"]
+
+        for _id, node in graph["nodes"].items():
             self.nodes.append(Node(
-                item["id"],
-                item["label"],
-                item["cmodel"]
+                _id,
+                node["label"],
+                node["metadata"]["cmodel"]
             ))
-            for edge in item["targets"]:
-                self.edges.append(Edge(item["id"], edge["target"], edge["weight"]))
+
+        for edge in graph["edges"]:
+            self.edges.append(Edge(
+                edge["source"],
+                edge["target"],
+                edge["metadata"]["weight"]
+            ))
 
     def __load_xml(self, file):
         tree = ET.parse(file)
@@ -72,4 +81,3 @@ class Network:
                     target.attrib["id"],
                     float(target.attrib["weight"]))
                     )
-
