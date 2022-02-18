@@ -1,0 +1,31 @@
+{
+    "graph": {
+        "directed" : false,
+        "nodes" : {
+            "1" : {
+                "label" : "node1",
+                "metadata" : {
+                    "cmodel" : "SIS"
+                }
+            },
+            "2" : {
+                "label" : "node2",
+                "metadata" : {
+                    "cmodel" : "SIS"
+                }
+            }
+        },
+        "edges": [
+            {
+                "source" : "1",
+                "target" : "2",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "2",
+                "target" : "1",
+                "metadata" : {"weight" : 0.5}
+            }
+        ]
+    }
+}

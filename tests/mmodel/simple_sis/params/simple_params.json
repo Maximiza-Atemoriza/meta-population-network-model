@@ -1,0 +1,1 @@
+[{"id": "1", "label": "node1", "model": "SIS", "y": {"S": 999, "I": 1}, "params": {"beta": 0.2, "alpha": 0.2}}, {"id": "2", "label": "node2", "model": "SIS", "y": {"S": 999, "I": 1}, "params": {"beta": 0.2, "alpha": 0.2}}]
