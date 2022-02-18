@@ -156,12 +156,12 @@ class MetaModel:
         for node in nodes:
             tree_node = root.createElement(node[NLABEL])
 
-            tree_node.setAttribute("id", node[NID])
-            tree_node.setAttribute("label", node[NLABEL])
-            tree_node.setAttribute("cmodel", node[NMODEL])
+            tree_node.setAttribute(NID, node[NID])
+            tree_node.setAttribute(NLABEL, node[NLABEL])
+            tree_node.setAttribute(NMODEL, node[NMODEL])
 
-            ny = root.createElement("NY")
-            nparams = root.createElement("NPARAMS")
+            ny = root.createElement(NY)
+            nparams = root.createElement(NPARAMS)
 
             for key, value in node[NY].items():
                 ny.setAttribute(key, value)
