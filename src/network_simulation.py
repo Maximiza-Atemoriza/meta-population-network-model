@@ -28,16 +28,17 @@ application_info = dbc.Row(
             -----
             ### Meta Population Network Models for COVID-19
             -----
-            Add here description of the project...
+            Start by filling each parameter field.
 
-            ...
+            **Network Configuration**  stablish the network configuration:
+            * _Meta Model_ sets the type of the meta model
+            * _path/to/network/file_ load the network configuration from the indicated file
+            * _Model Name_ is the name used to store the compiled network configuration
 
-            ...
+            **Network Parameters** stablish each node compartimental model type and its params:
+            * _path/to/network/params_ parameters for each node
+            * _Simulation Time_ sets when simulation should stop
 
-            ...
-
-
-            To start introduce the path to the network file in the input below.
             """
         ),
         sm=12,
@@ -47,6 +48,7 @@ application_info = dbc.Row(
 
 model_file_input = dbc.Row(
     [
+        dcc.Markdown("##### Network Configuration"),
         dbc.Col(
             dcc.Dropdown(
                 id="model-type",
@@ -67,7 +69,7 @@ model_file_input = dbc.Row(
             md=4,
         ),
         dbc.Col(
-            dbc.Input(id="input-model-name", placeholder="model name", type="text"),
+            dbc.Input(id="input-model-name", placeholder="Model Name", type="text"),
             sm=12,
             md=2,
         ),
@@ -78,6 +80,7 @@ model_file_input = dbc.Row(
 
 param_file_input = dbc.Row(
     [
+        dcc.Markdown("##### Network Parameters"),
         dbc.Col(
             dbc.Input(
                 id="input-params", placeholder="path/to/network/params", type="text"
@@ -86,9 +89,9 @@ param_file_input = dbc.Row(
             md=4,
         ),
         dbc.Col(
-            dbc.Input(id="input-time", placeholder="simulation time", type="number"),
+            dbc.Input(id="input-time", placeholder="Simulation Time", type="number"),
             sm=12,
-            md=2,
+            md=3,
         ),
         dbc.Col(dbc.Button(id="simulate-btn", children="Simulate"), sm=12, md=2),
         html.Div(id="simul-status", style={"margin-top": "10px"}),
@@ -102,8 +105,8 @@ network_info = dbc.Row(
                 dcc.Markdown(
                     f"""
             -----
-            ##### Network Description
-            Description of the network being used
+            ##### Network Geo Graph
+            Graphical output of network configuration
             """
                 )
             ],
@@ -115,8 +118,8 @@ network_info = dbc.Row(
                 dcc.Markdown(
                     f"""
             -----
-            ##### Network Features
-            Features from the model
+            ##### Network Behaviour
+            Network behaviour agains time during the simulation
             """
                 )
             ],
@@ -164,41 +167,13 @@ node_visualization = dbc.Row(
                     f"""
             ----- 
             ##### Node Behaviour
-            Visualize a node's independent behaviour
+            Visualize a single node's behaviour
             """
                 ),
                 node_chart,
             ],
             sm=12,
             md=6,
-        ),
-        dbc.Col(
-            [
-                dcc.Markdown(
-                    f"""
-                    -----
-                    ##### Node Parameters
-                    Visualize a nodes's parameters
-                    """
-                ),
-                node_params,
-            ],
-            sm=12,
-            md=3,
-        ),
-        dbc.Col(
-            [
-                dcc.Markdown(
-                    f"""
-                -----
-                ##### Edge Parameters
-                Visualize an edge's parameters
-                """
-                ),
-                edge_params,
-            ],
-            sm=12,
-            md=3,
         ),
     ]
 )
@@ -236,7 +211,15 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
         )
         elements = []
         for node in model.network.nodes:
-            elements.append({"data": {"id": str(node.id), "label": node.label}})
+            elements.append(
+                {
+                    "data": {
+                        "id": str(node.id),
+                        "label": node.label,
+                        "cmodel": node.cmodel,
+                    }
+                }
+            )
         for edge in model.network.edges:
             elements.append(
                 {
@@ -259,11 +242,7 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
     prevent_initial_call=True,
 )
 def simulate_network(_, input_params, input_time):
-    print(input_params, input_time)
-    print(type(input_params), type(input_time))
-    input_time = np.linspace(0, input_time, input_time)
     if model is None:
-        print("simulation failed 0")
         not_yet = dbc.Col(
             dbc.Alert(
                 "Please set a valid meta-model specification file first",
@@ -272,10 +251,10 @@ def simulate_network(_, input_params, input_time):
             ),
             md=10,
         )
-        print("exit0")
         return not_yet, go.Figure()
-    print("simulating")
+
     global result
+    input_time = np.linspace(0, input_time, input_time)
     result = model.simulate(input_params, input_time)
     if result is None:
         print("simulation failed 1")
@@ -338,20 +317,3 @@ def simulate_node(node_data, time):
 
     print("returning calculated figure")
     return figure
-
-
-@app.callback(
-    Output("node-params", "children"), Input("cytoscape-network", "selectedNodeData")
-)
-def get_node_params(node_data):
-    return ["hola"]
-
-
-@app.callback(
-    Output("edge-params", "children"), Input("cytoscape-network", "selectedEdgeData")
-)
-def get_edge_params(node_data):
-    return ["balooo"]
-
-
-# Need to define certain call backs
