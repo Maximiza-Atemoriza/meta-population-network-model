@@ -18,6 +18,9 @@ from mmodel.mmodel import MetaModel
 FLUX = 1
 SIMPLE_TRIP = 2
 
+LOAD = 1
+GENERATE = 2
+
 model: Union[MetaModel, None] = None
 result: Union[Dict, None] = None
 
@@ -56,19 +59,34 @@ model_file_input = dbc.Row(
                     {"label": "Simple Trip", "value": SIMPLE_TRIP},
                 ],
                 placeholder="Meta Model Type",
+                value=FLUX,
+                clearable=True,
+                searchable=False,
+                persistence=True,
+                persistence_type="session",
             ),
             sm=12,
             md=2,
         ),
         dbc.Col(
             dbc.Input(
-                id="input-model", placeholder="path/to/network/file", type="text"
+                id="input-model",
+                placeholder="path/to/network/file",
+                type="text",
+                persistence=True,
+                persistence_type="session",
             ),
             sm=12,
             md=4,
         ),
         dbc.Col(
-            dbc.Input(id="input-model-name", placeholder="Model Name", type="text"),
+            dbc.Input(
+                id="input-model-name",
+                placeholder="Model Name",
+                type="text",
+                persistence=True,
+                persistence_type="session",
+            ),
             sm=12,
             md=2,
         ),
@@ -78,15 +96,35 @@ model_file_input = dbc.Row(
             md=3,
         ),
         html.Div(id="input-model-result", style={"marginTop": "10px"}),
-    ]
+    ],
 )
 
 param_file_input = dbc.Row(
     [
         dcc.Markdown("##### Network Parameters"),
         dbc.Col(
+            dcc.Dropdown(
+                id="select-params",
+                options=[
+                    {"label": "Load", "value": LOAD},
+                    {"label": "Generate", "value": GENERATE},
+                ],
+                value=LOAD,
+                clearable=False,
+                searchable=False,
+                persistence=True,
+                persistence_type="session",
+            ),
+            sm=12,
+            md=2,
+        ),
+        dbc.Col(
             dbc.Input(
-                id="input-params", placeholder="path/to/network/params", type="text"
+                id="input-params",
+                placeholder="path/to/network/params",
+                type="text",
+                persistence=True,
+                persistence_type="session",
             ),
             sm=12,
             md=4,
@@ -109,7 +147,13 @@ start_simulation = dbc.Row(
     [
         dcc.Markdown("##### Simulation", style={"marginTop": "10px"}),
         dbc.Col(
-            dbc.Input(id="input-time", placeholder="Simulation Time", type="number"),
+            dbc.Input(
+                id="input-time",
+                placeholder="Simulation Time",
+                type="number",
+                persistence=True,
+                persistence_type="session",
+            ),
             sm=12,
             md=3,
         ),
