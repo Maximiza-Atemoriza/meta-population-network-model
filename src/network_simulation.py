@@ -201,35 +201,52 @@ layout = dbc.Container(
 def load_input_model(n_clicks, file_path, model_name, model_type):
     global model
     if model_type == FLUX:
-        model = FluxMetaModel(model_name, file_path)
-        alert = dbc.Col(
-            dbc.Alert(
-                "Meta Model loaded successfuly", color="success", dismissable=True
-            ),
+        try:
+            model = FluxMetaModel(model_name, file_path)
+        except (AttributeError, FileNotFoundError) as err:
+            text = "Configuration file is not set." if file_path is None else ""
+            text = "File not found" if isinstance(err, FileNotFoundError) else ""
+            fail = dbc.Col(
+                dbc.Alert(
+                    f"Could not load meta-model. {text}",
+                    color="warning",
+                    dismissable=True,
+                ),
+                md=10,
+            )
+            return fail, []
+    else:
+        fail = dbc.Col(
+            dbc.Alert("Invalid meta-model type", color="warning", dismissable=True),
             md=10,
         )
-        elements = []
-        for node in model.network.nodes:
-            elements.append(
-                {
-                    "data": {
-                        "id": str(node.id),
-                        "label": node.label,
-                        "cmodel": node.cmodel,
-                    }
+        return fail, []
+
+    success = dbc.Col(
+        dbc.Alert("Meta Model loaded successfuly", color="success", dismissable=True),
+        md=10,
+    )
+    elements = []
+    for node in model.network.nodes:
+        elements.append(
+            {
+                "data": {
+                    "id": str(node.id),
+                    "label": node.label,
+                    "cmodel": node.cmodel,
                 }
-            )
-        for edge in model.network.edges:
-            elements.append(
-                {
-                    "data": {
-                        "source": str(edge.source),
-                        "target": str(edge.target),
-                    }
+            }
+        )
+    for edge in model.network.edges:
+        elements.append(
+            {
+                "data": {
+                    "source": str(edge.source),
+                    "target": str(edge.target),
                 }
-            )
-        return alert, elements
-    return None, []
+            }
+        )
+    return success, elements
 
 
 @app.callback(
