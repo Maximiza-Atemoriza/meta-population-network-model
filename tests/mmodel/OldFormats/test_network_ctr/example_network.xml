@@ -1,19 +1,25 @@
-<node_list>
-    <node id = "1"  label= "node1" cmodel="SIR">
-        <targets>
-            
-        </targets>
-    </node>
-
-    <node id = "2"  label= "node2" cmodel="SIR">
-        <targets>
-            <target id="1" weight="0.5"/>
-        </targets>
-    </node>
-
-    <node id = "3"  label= "node3" cmodel="SIR">
-        <targets>
-            <target id="1" weight="0.5"/>
-        </targets>
-    </node>
-</node_list>
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="node" attr.name="cmodel" attr.type="string"/>
+  <key id="d1" for="node" attr.name="label" attr.type="string"/>
+  <key id="d2" for="edge" attr.name="weight" attr.type="double"/>
+  <graph id="G" edgedefault="directed">
+	  <node id="1">
+		  <data key="d0">SIR</data>
+		  <data key="d1">node1</data>
+	  </node>
+	  <node id="2">
+		  <data key="d0">SIR</data>
+		  <data key="d1">node2</data>
+	  </node>
+	  <node id="3">
+		  <data key="d0">SIR</data>
+		  <data key="d1">node3</data>
+	  </node>
+	<edge source="2" target="1"> <data key="d2">0.5</data></edge>
+	<edge source="3" target="1"><data key="d2">0.5</data></edge>
+  </graph>
+</graphml>

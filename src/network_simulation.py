@@ -28,16 +28,16 @@ application_info = dbc.Row(
             -----
             ### Meta Population Network Models for COVID-19
             -----
-            Add here description of the project...
+            Start by filling each parameter field.
 
-            ...
+            **Network Configuration**  stablish the network configuration:
+            * _Meta Model_ sets the type of the meta model
+            * _path/to/network/file_ load the network configuration from the indicated file
+            * _Model Name_ is the name used to store the compiled network configuration
 
-            ...
-
-            ...
-
-
-            To start introduce the path to the network file in the input below.
+            **Network Parameters** stablish each node compartimental model type and its params:
+            * _path/to/network/params_ parameters for each node
+            * _Simulation Time_ sets simulation total duration
             """
         ),
         sm=12,
@@ -47,6 +47,7 @@ application_info = dbc.Row(
 
 model_file_input = dbc.Row(
     [
+        dcc.Markdown("##### Network Configuration"),
         dbc.Col(
             dcc.Dropdown(
                 id="model-type",
@@ -67,17 +68,22 @@ model_file_input = dbc.Row(
             md=4,
         ),
         dbc.Col(
-            dbc.Input(id="input-model-name", placeholder="model name", type="text"),
+            dbc.Input(id="input-model-name", placeholder="Model Name", type="text"),
             sm=12,
             md=2,
         ),
-        dbc.Col(dbc.Button(id="input-model-btn", children="Create"), sm=12, md=3),
-        html.Div(id="input-model-result", style={"margin-top": "10px"}),
+        dbc.Col(
+            dbc.Button(id="input-model-btn", children="Compile", color="primary"),
+            sm=12,
+            md=3,
+        ),
+        html.Div(id="input-model-result", style={"marginTop": "10px"}),
     ]
 )
 
 param_file_input = dbc.Row(
     [
+        dcc.Markdown("##### Network Parameters"),
         dbc.Col(
             dbc.Input(
                 id="input-params", placeholder="path/to/network/params", type="text"
@@ -86,12 +92,49 @@ param_file_input = dbc.Row(
             md=4,
         ),
         dbc.Col(
-            dbc.Input(id="input-time", placeholder="simulation time", type="number"),
+            dbc.Button(id="generate-params-btn", children="Generate", color="primary"),
             sm=12,
-            md=2,
+            md=3,
         ),
-        dbc.Col(dbc.Button(id="simulate-btn", children="Simulate"), sm=12, md=2),
-        html.Div(id="simul-status", style={"margin-top": "10px"}),
+        html.Div(
+            id="param-status",
+            style={
+                "marginTop": "10px",
+            },
+        ),
+    ]
+)
+
+start_simulation = dbc.Row(
+    [
+        dcc.Markdown("##### Simulation", style={"marginTop": "10px"}),
+        dbc.Col(
+            dbc.Input(id="input-time", placeholder="Simulation Time", type="number"),
+            sm=12,
+            md=3,
+        ),
+        dbc.Col(
+            [
+                dbc.Button(
+                    id="simulate-btn",
+                    children="Run Simulation",
+                    color="success",
+                    style={
+                        "paddingRight": "40px",
+                        "paddingLeft": "40px",
+                        "textStyle": "bold",
+                    },
+                ),
+            ],
+            sm=12,
+            md=3,
+        ),
+        html.Div(
+            id="simul-status",
+            style={
+                "marginTop": "10px",
+            },
+        ),
     ]
 )
 
@@ -102,8 +145,8 @@ network_info = dbc.Row(
                 dcc.Markdown(
                     f"""
             -----
-            ##### Network Description
-            Description of the network being used
+            ##### Network Geo Graph
+            Graphical output of network configuration
             """
                 )
             ],
@@ -115,8 +158,8 @@ network_info = dbc.Row(
                 dcc.Markdown(
                     f"""
             -----
-            ##### Network Features
-            Features from the model
+            ##### Network Behaviour
+            Network behaviour agains time during the simulation
             """
                 )
             ],
@@ -162,37 +205,13 @@ node_visualization = dbc.Row(
                     f"""
             ----- 
             ##### Node Behaviour
-            This shows the behaviour of the node during the simulation
+            Visualize a single node's behaviour
             """
                 ),
                 node_chart,
             ],
             sm=12,
             md=6,
-        ),
-        dbc.Col(
-            [
-                dcc.Markdown(
-                    f"""
-                    -----
-                    ##### Node Parameters
-                    This shows the model params
-                    """
-                ),
-            ],
-            sm=12,
-            md=3,
-        ),
-        dbc.Col(
-            dcc.Markdown(
-                f"""
-                -----
-                ##### Edge Parameters
-                Thish shows the edge params
-                """
-            ),
-            sm=12,
-            md=3,
         ),
     ]
 )
@@ -202,6 +221,7 @@ layout = dbc.Container(
         application_info,
         model_file_input,
         param_file_input,
+        start_simulation,
         network_info,
         network_visualization,
         node_visualization,
@@ -221,31 +241,103 @@ layout = dbc.Container(
 def load_input_model(n_clicks, file_path, model_name, model_type):
     global model
     if model_type == FLUX:
-        model = FluxMetaModel(model_name, file_path)
-        alert = dbc.Col(
-            dbc.Alert(
-                "Meta Model loaded successfuly", color="success", dismissable=True
-            ),
+        try:
+            model = FluxMetaModel(model_name, file_path)
+        except (AttributeError, FileNotFoundError) as err:
+            text = "Configuration file is not set." if file_path is None else ""
+            text = "File not found." if isinstance(err, FileNotFoundError) else ""
+            fail = dbc.Col(
+                dbc.Alert(
+                    f"Could not load meta-model. {text}",
+                    color="warning",
+                    dismissable=True,
+                ),
+                md=10,
+            )
+            return fail, []
+    else:
+        fail = dbc.Col(
+            dbc.Alert("Invalid Meta-Model type", color="warning", dismissable=True),
             md=10,
         )
-        elements = []
-        for node in model.network.nodes:
-            elements.append({"data": {"id": str(node.id), "label": node.label}})
-        for edge in model.network.edges:
-            elements.append(
-                {
-                    "data": {
-                        "source": str(edge.source),
-                        "target": str(edge.target),
-                    }
+        return fail, []
+
+    success = dbc.Col(
+        dbc.Alert("Meta-Model loaded successfuly", color="success", dismissable=True),
+        md=10,
+    )
+    elements = []
+    for node in model.network.nodes:
+        elements.append(
+            {
+                "data": {
+                    "id": str(node.id),
+                    "label": node.label,
+                    "cmodel": node.cmodel,
                 }
-            )
-        return alert, elements
-    return None, []
+            }
+        )
+    for edge in model.network.edges:
+        elements.append(
+            {
+                "data": {
+                    "source": str(edge.source),
+                    "target": str(edge.target),
+                }
+            }
+        )
+    return success, elements
 
 
 @app.callback(
-    Output("simul-status", "childern"),
+    Output("param-status", "children"),
+    Input("generate-params-btn", "n_clicks"),
+    State("input-params", "value"),
+    prevent_initial_call=True,
+)
+def generate_base_model(_, input_params):
+    if model is None:
+        return dbc.Col(
+            dbc.Alert(
+                "Please load a network configuration first.",
+                color="warning",
+                dismissable=True,
+            ),
+            md=10,
+        )
+    if not input_params.endswith(".xml") and not input_params.endswith(".json"):
+        return dbc.Col(
+            dbc.Alert(
+                "Can only generate in xml and json formats.",
+                color="warning",
+                dismissable=True,
+            ),
+            md=10,
+        )
+
+    try:
+        model.export_input(input_params)
+    except FileNotFoundError:
+        return dbc.Col(
+            dbc.Alert(
+                "Invalid path to file.",
+                color="warning",
+                dismissable=True,
+            ),
+            md=10,
+        )
+
+    return (
+        dbc.Alert(
+            "Generation succesfull",
+            color="success",
+            dismissable=True,
+        ),
+    )
+
+
+@app.callback(
+    Output("simul-status", "children"),
     Output("network-chart", "figure"),
     Input("simulate-btn", "n_clicks"),
     State("input-params", "value"),
@@ -253,29 +345,28 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
     prevent_initial_call=True,
 )
 def simulate_network(_, input_params, input_time):
-    print(input_params, input_time)
-    print(type(input_params), type(input_time))
-    input_time = np.linspace(0, input_time, input_time)
     if model is None:
-        print("simulation failed 0")
         not_yet = dbc.Col(
             dbc.Alert(
-                "Please set a valid meta-model specification file first",
+                "Please load a network configuration first.",
                 color="warning",
                 dismissable=True,
             ),
             md=10,
         )
-        print("exit0")
         return not_yet, go.Figure()
-    print("simulating")
-    global result
-    result = model.simulate(input_params, input_time)
-    if result is None:
+
+    try:
+        input_time = np.linspace(0, input_time, input_time)
+        global result
+        result = model.simulate(input_params, input_time)
+    except (TypeError, AttributeError):
         print("simulation failed 1")
+        text = "Parameter file is not set." if input_params is None else ""
+        text += "\n\nSimulation time is not set." if input_time is None else ""
         not_yet = dbc.Col(
             dbc.Alert(
-                "Please set a valid meta-model param files first",
+                f"Please fill a meta-model parameter with valid information.\n\n{text}",
                 color="warning",
                 dismissable=True,
             ),
@@ -297,8 +388,15 @@ def simulate_network(_, input_params, input_time):
     figure.add_trace(go.Scatter(x=input_time, y=i, mode="lines", name="I"))
     figure.add_trace(go.Scatter(x=input_time, y=r, mode="lines", name="R"))
 
-    print("exit2")
-    return None, figure
+    completed = dbc.Col(
+        dbc.Alert(
+            "Simulation Completed",
+            color="success",
+            dismissable=True,
+        ),
+        md=10,
+    )
+    return completed, figure
 
 
 @app.callback(
@@ -312,10 +410,15 @@ def simulate_node(node_data, time):
     print(node_data)
 
     try:
-        idx = int(node_data[0]["id"])
+        idx = node_data[0]["id"]
     except (IndexError):
         return go.Figure()
+
+    if result is None:
+        return go.Figure()
+
     # Only SIR cmodel is assumed
+    print(idx)
     s = result[idx]["S"]
     i = result[idx]["I"]
     r = result[idx]["R"]
@@ -326,4 +429,5 @@ def simulate_node(node_data, time):
     figure.add_trace(go.Scatter(x=time, y=i, mode="lines", name="I"))
     figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
 
+    print("returning calculated figure")
     return figure
