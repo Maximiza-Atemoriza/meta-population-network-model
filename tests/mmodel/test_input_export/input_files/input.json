@@ -1,107 +1,17 @@
 [
-    {
-        "id": 1,
-        "label": "La Lisa",
-        "model": "SIR",
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 2, 
-        "label": "Playa", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 3, 
-        "label": "Marianao", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 4, 
-        "label": "Boyeros", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 5, 
-        "label": "Arroyo Naranjo", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 6, 
-        "label": "Diez de Octubre", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 7, 
-        "label": "Cerro", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 8, 
-        "label": "Plaza de la Revolución", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 9, 
-        "label": "Centro Habana", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 10, 
-        "label": "Habana Vieja", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 11, 
-        "label": "San Miguel del Padrón", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 12, 
-        "label": "Cotorro", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 13, 
-        "label": "Guanabacoa", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 14, 
-        "label": "Habana del Este", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }, 
-    {
-        "id": 15, 
-        "label": "Regla", 
-        "model": "SIR", 
-        "y": {"S": 0, "I": 0, "R": 0}, 
-        "params": {"beta": 0, "gamma": 0, "N": 0}
-    }
+  {
+    "id": "1",
+    "label": "node1",
+    "model": "SIR",
+    "y": { "S": 999, "I": 1, "R": 0 },
+    "params": { "beta": 0.2, "gamma": 0.1, "N": 100 }
+  },
+  {
+    "id": "2",
+    "label": "node2",
+    "model": "SIR",
+    "y": { "S": 999, "I": 1, "R": 0 },
+    "params": { "beta": 0.2, "gamma": 0.1, "N": 100 }
+  }
 ]
+
