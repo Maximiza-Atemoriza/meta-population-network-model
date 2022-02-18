@@ -177,7 +177,7 @@ start_simulation = dbc.Row(
                 ),
             ],
             sm=12,
-            md=3,
+            md=4,
         ),
         html.Div(
             id="simul-status",
