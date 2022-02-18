@@ -154,19 +154,19 @@ class MetaModel:
         xml = root.createElement("nodes")
 
         for node in nodes:
-            tree_node = root.createElement(node["NLABEL"])
+            tree_node = root.createElement(node[NLABEL])
 
-            tree_node.setAttribute("id", node["NID"])
-            tree_node.setAttribute("label", node["NLABEL"])
-            tree_node.setAttribute("cmodel", node["NCMODEL"])
+            tree_node.setAttribute("id", node[NID])
+            tree_node.setAttribute("label", node[NLABEL])
+            tree_node.setAttribute("cmodel", node[NMODEL])
 
             ny = root.createElement("NY")
             nparams = root.createElement("NPARAMS")
 
-            for key, value in node["NY"].items():
+            for key, value in node[NY].items():
                 ny.setAttribute(key, value)
 
-            for key, value in node["NPARAMS"].items():
+            for key, value in node[NPARAMS].items():
                 nparams.setAttribute(key, value)
 
             ytext = root.createTextNode(
