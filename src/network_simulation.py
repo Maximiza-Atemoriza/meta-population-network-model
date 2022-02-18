@@ -72,8 +72,12 @@ model_file_input = dbc.Row(
             sm=12,
             md=2,
         ),
-        dbc.Col(dbc.Button(id="input-model-btn", children="Create"), sm=12, md=3),
-        html.Div(id="input-model-result", style={"margin-top": "10px"}),
+        dbc.Col(
+            dbc.Button(id="input-model-btn", children="Compile", color="primary"),
+            sm=12,
+            md=3,
+        ),
+        html.Div(id="input-model-result", style={"marginTop": "10px"}),
     ]
 )
 
@@ -88,12 +92,49 @@ param_file_input = dbc.Row(
             md=4,
         ),
         dbc.Col(
+            dbc.Button(id="generate-params-btn", children="Generate", color="primary"),
+            sm=12,
+            md=3,
+        ),
+        html.Div(
+            id="param-status",
+            style={
+                "marginTop": "10px",
+            },
+        ),
+    ]
+)
+
+start_simulation = dbc.Row(
+    [
+        dcc.Markdown("##### Simulation", style={"marginTop": "10px"}),
+        dbc.Col(
             dbc.Input(id="input-time", placeholder="Simulation Time", type="number"),
             sm=12,
             md=3,
         ),
-        dbc.Col(dbc.Button(id="simulate-btn", children="Simulate"), sm=12, md=2),
-        html.Div(id="simul-status", style={"margin-top": "10px"}),
+        dbc.Col(
+            [
+                dbc.Button(
+                    id="simulate-btn",
+                    children="Run Simulation",
+                    color="success",
+                    style={
+                        "paddingRight": "40px",
+                        "paddingLeft": "40px",
+                        "textStyle": "bold",
+                    },
+                ),
+            ],
+            sm=12,
+            md=3,
+        ),
+        html.Div(
+            id="simul-status",
+            style={
+                "marginTop": "10px",
+            },
+        ),
     ]
 )
 
@@ -155,8 +196,6 @@ network_visualization = dbc.Row(
 )
 
 node_chart = dcc.Graph(id="node-graph")
-node_params = dcc.Markdown(id="node-params")
-edge_params = dcc.Markdown(id="edge-params")
 
 node_visualization = dbc.Row(
     [
@@ -182,6 +221,7 @@ layout = dbc.Container(
         application_info,
         model_file_input,
         param_file_input,
+        start_simulation,
         network_info,
         network_visualization,
         node_visualization,
@@ -205,7 +245,7 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
             model = FluxMetaModel(model_name, file_path)
         except (AttributeError, FileNotFoundError) as err:
             text = "Configuration file is not set." if file_path is None else ""
-            text = "File not found" if isinstance(err, FileNotFoundError) else ""
+            text = "File not found." if isinstance(err, FileNotFoundError) else ""
             fail = dbc.Col(
                 dbc.Alert(
                     f"Could not load meta-model. {text}",
@@ -217,13 +257,13 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
             return fail, []
     else:
         fail = dbc.Col(
-            dbc.Alert("Invalid meta-model type", color="warning", dismissable=True),
+            dbc.Alert("Invalid Meta-Model type", color="warning", dismissable=True),
             md=10,
         )
         return fail, []
 
     success = dbc.Col(
-        dbc.Alert("Meta Model loaded successfuly", color="success", dismissable=True),
+        dbc.Alert("Meta-Model loaded successfuly", color="success", dismissable=True),
         md=10,
     )
     elements = []
@@ -250,6 +290,53 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
 
 
 @app.callback(
+    Output("param-status", "children"),
+    Input("generate-params-btn", "n_clicks"),
+    State("input-params", "value"),
+    prevent_initial_call=True,
+)
+def generate_base_model(_, input_params):
+    if model is None:
+        return dbc.Col(
+            dbc.Alert(
+                "Please load a network configuration first.",
+                color="warning",
+                dismissable=True,
+            ),
+            md=10,
+        )
+    if not input_params.endswith(".xml") and not input_params.endswith(".json"):
+        return dbc.Col(
+            dbc.Alert(
+                "Can only generate in xml and json formats.",
+                color="warning",
+                dismissable=True,
+            ),
+            md=10,
+        )
+
+    try:
+        model.export_input(input_params)
+    except FileNotFoundError:
+        return dbc.Col(
+            dbc.Alert(
+                "Invalid path to file.",
+                color="warning",
+                dismissable=True,
+            ),
+            md=10,
+        )
+
+    return (
+        dbc.Alert(
+            "Generation succesfull",
+            color="success",
+            dismissable=True,
+        ),
+    )
+
+
+@app.callback(
     Output("simul-status", "children"),
     Output("network-chart", "figure"),
     Input("simulate-btn", "n_clicks"),
@@ -261,7 +348,7 @@ def simulate_network(_, input_params, input_time):
     if model is None:
         not_yet = dbc.Col(
             dbc.Alert(
-                "Please load a network configuration first",
+                "Please load a network configuration first.",
                 color="warning",
                 dismissable=True,
             ),
