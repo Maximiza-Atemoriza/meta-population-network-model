@@ -195,7 +195,7 @@ network_info = dbc.Row(
                 dcc.Markdown(
                     f"""
             -----
-            ##### Network Geo Graph
+            ##### Network Topology Graph
             Graphical output of network configuration
             """
                 )
@@ -209,7 +209,7 @@ network_info = dbc.Row(
                     f"""
             -----
             ##### Network Behaviour
-            Network behaviour agains time during the simulation
+            Network behaviour during the simulation
             """
                 )
             ],

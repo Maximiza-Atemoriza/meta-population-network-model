@@ -45,6 +45,5 @@ def show_sis_simulation(model: MetaModel, result: Dict, time: np.ndarray):
     return figure
 
 
-
 def get_compartimental_model_type(model: MetaModel) -> str:
     return model.network.nodes[0].cmodel
