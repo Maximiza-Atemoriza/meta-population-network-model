@@ -2,6 +2,28 @@ from .mmodel import MetaModel, load_model
 
 
 class FluxMetaModel(MetaModel):
+    def __transform_input__(self, y, params):
+        return y, params
+    
+    def __transform_output__(self, ret):
+        cmodels = {}
+        results = {}
+
+        curr = 0  # current result
+        for node in self.network.nodes:
+            try:
+                cmodel = cmodels[node.cmodel]
+            except KeyError:
+                cmodel = cmodels[node.cmodel] = load_model(node.cmodel)
+
+            results[node.id] = dict(
+                zip(cmodel.sets, ret[curr : curr + len(cmodel.sets)])
+            )
+            curr += len(cmodel.sets)
+
+        return results
+
+
     def __compute_structures__(self):
         network = self.network
 
