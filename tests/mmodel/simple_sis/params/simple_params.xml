@@ -1,0 +1,10 @@
+<nodes>
+	<node1 id="1" label="node1" model="SIS">
+		<y S="10000" I="0">Puede modificar los atributos de este elemento</y>
+		<params beta="0.2" alpha="0.2">Puede modificar los atributos de este elemento</params>
+	</node1>
+	<node2 id="2" label="node2" model="SIS">
+		<y S="1000" I="1">Puede modificar los atributos de este elemento</y>
+		<params beta="0.2" alpha="0.2">Puede modificar los atributos de este elemento</params>
+	</node2>
+</nodes>
