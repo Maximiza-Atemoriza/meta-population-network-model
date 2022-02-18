@@ -334,6 +334,17 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
 
 
 @app.callback(
+    Output("generate-params-btn", "disabled"),
+    Output("generate-params-btn", "color"),
+    Input("select-params", "value"),
+)
+def load_or_generate(value):
+    if value == LOAD:
+        return (True, "secondary")
+    return (False, "primary")
+
+
+@app.callback(
     Output("param-status", "children"),
     Input("generate-params-btn", "n_clicks"),
     State("input-params", "value"),
