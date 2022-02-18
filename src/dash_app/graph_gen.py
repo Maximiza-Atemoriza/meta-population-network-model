@@ -41,7 +41,9 @@ def show_sis_simulation(model: MetaModel, result: Dict, time: np.ndarray):
 
     figure = go.Figure()
     figure.add_trace(go.Scatter(x=time, y=s, mode="lines", name="S"))
+    figure.add_trace(go.Scatter(x=time, y=i, mode="lines", name="I"))
     return figure
+
 
 
 def get_compartimental_model_type(model: MetaModel) -> str:

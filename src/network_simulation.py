@@ -479,15 +479,21 @@ def simulate_node(node_data, time):
 
     # Only SIR cmodel is assumed
     print(idx)
-    s = result[idx]["S"]
-    i = result[idx]["I"]
-    r = result[idx]["R"]
 
     time = np.linspace(0, time, time)
     figure = go.Figure()
+
+    s = result[idx]["S"]
+    i = result[idx]["I"]
+
     figure.add_trace(go.Scatter(x=time, y=s, mode="lines", name="S"))
     figure.add_trace(go.Scatter(x=time, y=i, mode="lines", name="I"))
-    figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
+
+    try:
+        r = result[idx]["R"]
+        figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
+    except KeyError:
+        pass
 
     print("returning calculated figure")
     return figure
