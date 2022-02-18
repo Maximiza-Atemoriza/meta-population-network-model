@@ -5,15 +5,16 @@ import dash
 import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, dcc, html
-
-# ------------------- Ploting ----------------------
 import plotly.graph_objects as go
 import numpy as np
-
-# ------------------- Meta Models ------------------
 from mmodel.flux import FluxMetaModel
 from app import app
 from mmodel.mmodel import MetaModel
+from dash_app.graph_gen import show_simulation
+
+# ------------------- Ploting ----------------------
+
+# ------------------- Meta Models ------------------
 
 FLUX = 1
 SIMPLE_TRIP = 2
@@ -432,7 +433,6 @@ def simulate_network(_, input_params, input_time):
         global result
         result = model.simulate(input_params, input_time)
     except (TypeError, AttributeError):
-        print("simulation failed 1")
         text = "Parameter file is not set." if input_params is None else ""
         text += "\n\nSimulation time is not set." if input_time is None else ""
         not_yet = dbc.Col(
@@ -443,21 +443,10 @@ def simulate_network(_, input_params, input_time):
             ),
             md=10,
         )
-        print("exit1")
         return not_yet, go.Figure()
 
     # Right now it is assumed only sir model is used
-    s, i, r = (0, 0, 0)
-    for node in model.network.nodes:
-        idx = node.id
-        s += result[idx]["S"]
-        i += result[idx]["I"]
-        r += result[idx]["R"]
-
-    figure = go.Figure()
-    figure.add_trace(go.Scatter(x=input_time, y=s, mode="lines", name="S"))
-    figure.add_trace(go.Scatter(x=input_time, y=i, mode="lines", name="I"))
-    figure.add_trace(go.Scatter(x=input_time, y=r, mode="lines", name="R"))
+    figure = show_simulation(model, result, input_time)
 
     completed = dbc.Col(
         dbc.Alert(
