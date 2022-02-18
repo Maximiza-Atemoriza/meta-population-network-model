@@ -1,0 +1,20 @@
+[
+    {        
+        "id" : 1,
+        "label" : "node1",
+        "cmodel" : "SIR",
+        
+        "targets": [
+			{ "target": 2, "weight" : 0.6 }
+        ]           
+    },
+    {        
+        "id" : 2,
+        "label" : "node2",
+        "cmodel" : "SIR",
+        
+        "targets": [
+			{ "target" : 1, "weight" : 0.1 }
+		]     
+    }
+]

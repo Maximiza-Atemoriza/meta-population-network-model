@@ -1,7 +1,7 @@
 from .mmodel import MetaModel, load_model
 
 
-class FluxMetaModel(MetaModel):
+class SimpleTripMetaModel(MetaModel):
     def __compute_structures__(self):
         network = self.network
 
@@ -35,39 +35,27 @@ class FluxMetaModel(MetaModel):
 
     def __generate_code__(self, structures):
         network = self.network
+        n = len(network.nodes)
 
         cmodels, in_edges, out_weight, set_map = structures
 
         code = "from scipy.integrate import odeint\n\n\n"
         code += "def deriv(y, t, params):\n"
         code += "\tresult = [0] * len(y)\n"
-        curr = 0  # Current result set
-        cury = 0  # Current y array index
-        curp = 0  # Current param array index
-        for nodex in network.nodes:
-            cmodel = cmodels[nodex.cmodel]
 
-            symbols = [f"y[{i}]" for i in range(cury, cury + len(cmodel.sets))]
-            cury += len(cmodel.sets)
-
-            symbols += [f"params[{i}]" for i in range(curp, curp + len(cmodel.params))]
-            curp += len(cmodel.params)
-
-            for s, g in cmodel.equations.items():
-                equation = f"\tresult[{curr}] = "
-
-                equation += g(*symbols)
-
-                for source, weight in in_edges[nodex.id]:
-                    try:
-                        equation += f" + {weight} * y[{set_map[source][s]}]"
-                    except KeyError:
-                        pass
-
-                equation += f" - {out_weight[nodex.id]} * y[{set_map[nodex.id][s]}]\n"
-
+        cur_set = 0
+        for s in cmodels["SIR"].sets:
+            for cur_node in range(n):
+                equation = f"\t{s}_{cur_node + 1} = "
+                start = cur_node
+                while start < n * n:
+                    equation += f" y[{cur_set * n * n + start}] +"
+                    start += n
+                equation = equation[:-1]
+                equation += "\n"
                 code += equation
-                curr += 1
+            cur_set += 1
+
         code += "\treturn result\n"
         code += "\n\n"
         code += "def solve(y, t, params):\n"

@@ -1,0 +1,1 @@
+{"name": "example_network", "config-file": "./src/test_simple/example_network.cnf.json", "network-file": "./src/test_simple/example_network.json", "code-file": "./src/test_simple/example_network.py", "network-hash": "97417179141062dc0b8c2c828386106b182c1a11"}
