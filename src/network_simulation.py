@@ -37,8 +37,7 @@ application_info = dbc.Row(
 
             **Network Parameters** stablish each node compartimental model type and its params:
             * _path/to/network/params_ parameters for each node
-            * _Simulation Time_ sets when simulation should stop
-
+            * _Simulation Time_ sets simulation total duration
             """
         ),
         sm=12,
@@ -234,7 +233,7 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
 
 
 @app.callback(
-    Output("simul-status", "childern"),
+    Output("simul-status", "children"),
     Output("network-chart", "figure"),
     Input("simulate-btn", "n_clicks"),
     State("input-params", "value"),
@@ -245,7 +244,7 @@ def simulate_network(_, input_params, input_time):
     if model is None:
         not_yet = dbc.Col(
             dbc.Alert(
-                "Please set a valid meta-model specification file first",
+                "Please load a network configuration first",
                 color="warning",
                 dismissable=True,
             ),
@@ -253,14 +252,17 @@ def simulate_network(_, input_params, input_time):
         )
         return not_yet, go.Figure()
 
-    global result
-    input_time = np.linspace(0, input_time, input_time)
-    result = model.simulate(input_params, input_time)
-    if result is None:
+    try:
+        input_time = np.linspace(0, input_time, input_time)
+        global result
+        result = model.simulate(input_params, input_time)
+    except (TypeError, AttributeError):
         print("simulation failed 1")
+        text = "Parameter file is not set." if input_params is None else ""
+        text += "\n\nSimulation time is not set." if input_time is None else ""
         not_yet = dbc.Col(
             dbc.Alert(
-                "Please set a valid meta-model param files first",
+                f"Please fill a meta-model parameter with valid information.\n\n{text}",
                 color="warning",
                 dismissable=True,
             ),
@@ -282,7 +284,15 @@ def simulate_network(_, input_params, input_time):
     figure.add_trace(go.Scatter(x=input_time, y=i, mode="lines", name="I"))
     figure.add_trace(go.Scatter(x=input_time, y=r, mode="lines", name="R"))
 
-    return None, figure
+    completed = dbc.Col(
+        dbc.Alert(
+            "Simulation Completed",
+            color="success",
+            dismissable=True,
+        ),
+        md=10,
+    )
+    return completed, figure
 
 
 @app.callback(
