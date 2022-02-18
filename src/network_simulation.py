@@ -33,13 +33,18 @@ application_info = dbc.Row(
             -----
             Start by filling each parameter field.
 
-            **Network Configuration**  stablish the network configuration:
+            **Network Configuration**  stablish node topology and edge weight:
             * _Meta Model_ sets the type of the meta model
             * _path/to/network/file_ load the network configuration from the indicated file
             * _Model Name_ is the name used to store the compiled network configuration
 
             **Network Parameters** stablish each node compartimental model type and its params:
-            * _path/to/network/params_ parameters for each node
+            * If dropdown is equal to _Load_:
+                * _path/to/network/params_ loads the parameter of each node from a selected file
+            * If dropdown is equal to _Generate_:
+                * _path/to/network/params_ generates a file in selected location. It uses xml or json notation depending on filetype.
+
+            **Simulation**
             * _Simulation Time_ sets simulation total duration
             """
         ),
@@ -346,40 +351,50 @@ def load_or_generate(value):
 
 @app.callback(
     Output("param-status", "children"),
+    Output("select-params", "value"),
     Input("generate-params-btn", "n_clicks"),
     State("input-params", "value"),
     prevent_initial_call=True,
 )
 def generate_base_model(_, input_params):
     if model is None:
-        return dbc.Col(
-            dbc.Alert(
-                "Please load a network configuration first.",
-                color="warning",
-                dismissable=True,
+        return (
+            dbc.Col(
+                dbc.Alert(
+                    "Please load a network configuration first.",
+                    color="warning",
+                    dismissable=True,
+                ),
+                md=10,
             ),
-            md=10,
+            GENERATE,
         )
     if not input_params.endswith(".xml") and not input_params.endswith(".json"):
-        return dbc.Col(
-            dbc.Alert(
-                "Can only generate in xml and json formats.",
-                color="warning",
-                dismissable=True,
+        return (
+            dbc.Col(
+                dbc.Alert(
+                    "Can only generate in xml and json formats.",
+                    color="warning",
+                    dismissable=True,
+                ),
+                md=10,
             ),
-            md=10,
+            GENERATE,
         )
 
     try:
         model.export_input(input_params)
     except FileNotFoundError:
-        return dbc.Col(
-            dbc.Alert(
-                "Invalid path to file.",
-                color="warning",
-                dismissable=True,
+        return (
+            dbc.Col(
+                dbc.Alert(
+                    "Invalid path to file.",
+                    color="warning",
+                    dismissable=True,
+                ),
+                md=10,
             ),
-            md=10,
+            GENERATE,
         )
 
     return (
@@ -388,6 +403,7 @@ def generate_base_model(_, input_params):
             color="success",
             dismissable=True,
         ),
+        LOAD,
     )
 
 
