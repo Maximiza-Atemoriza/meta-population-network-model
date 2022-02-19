@@ -1,6 +1,26 @@
 from .mmodel import MetaModel, load_model
 
 class FluxMetaModel(MetaModel):
+    def __transform_input__(self, y, params):
+        return y, params
+    
+    def __transform_output__(self, ret):
+        cmodels = {}
+        results = {}
+
+        curr = 0  # current result
+        for node in self.network.nodes:
+            try:
+                cmodel = cmodels[node.cmodel]
+            except KeyError:
+                cmodel = cmodels[node.cmodel] = load_model(node.cmodel)
+
+            results[node.id] = dict(
+                zip(cmodel.sets, ret[curr : curr + len(cmodel.sets)])
+            )
+            curr += len(cmodel.sets)
+
+        return results
 
     def __compute_structures__(self):
         network = self.network
@@ -52,6 +72,8 @@ class FluxMetaModel(MetaModel):
 
             symbols = [f'y[{i}]' for i in range(cury, cury + len(cmodel.sets))]
             cury += len(cmodel.sets)
+
+            symbols += symbols # since for flux globals and locals are the same
 
             symbols += [f'params[{i}]' for i in range(curp, curp + len(cmodel.params))]
             curp += len(cmodel.params)

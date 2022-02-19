@@ -46,6 +46,7 @@ class MetaModel:
         else:
             raise Exception("Paremeter exception")
 
+   
     def simulate(self, input_file, t):
         if hash_file(self.net_file) != self.net_file_hash:
             print(f"hash of network file {self.net_file} changed, recompiling...")
@@ -59,27 +60,24 @@ class MetaModel:
         except FileNotFoundError:
             print("input file not exists")
             return None
+       
+        y_, params_ = self.__transform_input__(y, params)
 
         model = import_from_file(self.name, self.code_file)
 
-        ret = model.solve(y, t, params).T
-
-        cmodels = {}
-        results = {}
-
-        curr = 0  # current result
-        for node in self.network.nodes:
-            try:
-                cmodel = cmodels[node.cmodel]
-            except KeyError:
-                cmodel = cmodels[node.cmodel] = load_model(node.cmodel)
-
-            results[node.id] = dict(
-                zip(cmodel.sets, ret[curr : curr + len(cmodel.sets)])
-            )
-            curr += len(cmodel.sets)
+        ret = model.solve(y_, t, params_).T
+        
+        results = self.__transform_output__(ret)
 
         return results
+
+    
+    def __transform_input__(self, y, params):
+        raise NotImplementedError()
+
+    def __transform_output__(self, ret):
+        raise NotImplementedError()
+
 
     # ------------------------------------------------------------------
     # This sections conatins the methods that generate the code for

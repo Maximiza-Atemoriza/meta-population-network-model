@@ -47,11 +47,11 @@ class Network:
         graph = data["graph"]
 
         for _id, node in graph["nodes"].items():
-            self.nodes.append(Node(_id, node["label"], node["metadata"]["cmodel"]))
+            self.nodes.append(Node(int(_id), node["label"], node["metadata"]["cmodel"]))
 
         for edge in graph["edges"]:
             self.edges.append(
-                Edge(edge["source"], edge["target"], edge["metadata"]["weight"])
+                Edge(int(edge["source"]), int(edge["target"]), edge["metadata"]["weight"])
             )
 
     def __load_xml(self, file):
