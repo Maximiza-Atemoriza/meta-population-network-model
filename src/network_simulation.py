@@ -493,14 +493,14 @@ def simulate_node(node_data, time):
     time = np.linspace(0, time, time)
     figure = go.Figure()
 
-    s = result[idx]["S"]
-    i = result[idx]["I"]
+    s = result[int(idx)]["S"]
+    i = result[int(idx)]["I"]
 
     figure.add_trace(go.Scatter(x=time, y=s, mode="lines", name="S"))
     figure.add_trace(go.Scatter(x=time, y=i, mode="lines", name="I"))
 
     try:
-        r = result[idx]["R"]
+        r = result[int(idx)]["R"]
         figure.add_trace(go.Scatter(x=time, y=r, mode="lines", name="R"))
     except KeyError:
         pass
