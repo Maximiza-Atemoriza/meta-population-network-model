@@ -6,5 +6,8 @@ ifndef POETRY
 endif
 	poetry install
 
-run: install
-	poetry run python dash_app/index.py
+docker:
+	docker-compose run -p 8051:8051 app python3 ./src/index.py
+
+poetry: install
+	poetry run python ./src/index.py

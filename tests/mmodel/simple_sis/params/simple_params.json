@@ -1,0 +1,16 @@
+[
+  {
+    "id": "0",
+    "label": "node1",
+    "model": "SIS",
+    "y": { "S": 999, "I": 1, "N": 1000  },
+    "params": { "beta": 0.2, "gamma": 0.05}
+  },
+  {
+    "id": "1",
+    "label": "node2",
+    "model": "SIS",
+    "y": { "S": 999, "I": 1, "N": 1000 },
+    "params": { "beta": 0.2, "gamma": 0.05 }
+  }
+]

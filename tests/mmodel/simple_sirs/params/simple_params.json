@@ -1,0 +1,18 @@
+[
+    {
+      "id": "0",
+      "label": "node1",
+      "model": "SIRS",
+      "y": { "S": 999, "I": 1, "R": 0, "N": 1000 },
+      "params": { "xi":0.01, "beta": 0.2, "gamma": 0.05 }
+    },
+    {
+      "id": "1",
+      "label": "node2",
+      "model": "SIRS",
+      "y": { "S": 999, "I": 1, "R": 0, "N": 1000 },
+      "params": {"xi":0.01, "beta": 0.2, "gamma": 0.05 }
+    }
+  ]
+  
+  

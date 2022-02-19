@@ -1,0 +1,996 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> system
+Rule 1     system -> equation_list
+Rule 2     equation_list -> equation
+Rule 3     equation_list -> equation LBREAK equation_list
+Rule 4     equation -> differential EQUAL expression
+Rule 5     differential -> FRAC OCUR DIF identifier CCUR OCUR DIF identifier CCUR
+Rule 6     fraction -> FRAC OCUR expression CCUR OCUR expression CCUR
+Rule 7     expression -> arith
+Rule 8     expression -> MINUS expression
+Rule 9     arith -> term
+Rule 10    arith -> arith PLUS term
+Rule 11    arith -> arith MINUS term
+Rule 12    term -> term STAR factor
+Rule 13    term -> idlist
+Rule 14    idlist -> factor idlist
+Rule 15    idlist -> factor
+Rule 16    factor -> fraction
+Rule 17    factor -> NUMBER
+Rule 18    factor -> OPAR expression CPAR
+Rule 19    factor -> identifier
+Rule 20    factor -> PERCENT identifier
+Rule 21    identifier -> atom
+Rule 22    atom -> SYMBOL
+Rule 23    atom -> MACRO
+Rule 24    identifier -> atom UNDER atom
+Rule 25    identifier -> atom UNDER NUMBER
+Rule 26    identifier -> atom UNDER OCUR identifier CCUR
+
+Terminals, with rules where they appear
+
+CCUR                 : 5 5 6 6 26
+CPAR                 : 18
+DIF                  : 5 5
+EQUAL                : 4
+FRAC                 : 5 6
+LBREAK               : 3
+MACRO                : 23
+MINUS                : 8 11
+NUMBER               : 17 25
+OCUR                 : 5 5 6 6 26
+OPAR                 : 18
+PERCENT              : 20
+PLUS                 : 10
+STAR                 : 12
+SYMBOL               : 22
+UNDER                : 24 25 26
+error                : 
+
+Nonterminals, with rules where they appear
+
+arith                : 7 10 11
+atom                 : 21 24 24 25 26
+differential         : 4
+equation             : 2 3
+equation_list        : 1 3
+expression           : 4 6 6 8 18
+factor               : 12 14 15
+fraction             : 16
+identifier           : 5 5 19 20 26
+idlist               : 13 14
+system               : 0
+term                 : 9 10 11 12
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . system
+    (1) system -> . equation_list
+    (2) equation_list -> . equation
+    (3) equation_list -> . equation LBREAK equation_list
+    (4) equation -> . differential EQUAL expression
+    (5) differential -> . FRAC OCUR DIF identifier CCUR OCUR DIF identifier CCUR
+
+    FRAC            shift and go to state 5
+
+    system                         shift and go to state 1
+    equation_list                  shift and go to state 2
+    equation                       shift and go to state 3
+    differential                   shift and go to state 4
+
+state 1
+
+    (0) S' -> system .
+
+
+
+state 2
+
+    (1) system -> equation_list .
+
+    $end            reduce using rule 1 (system -> equation_list .)
+
+
+state 3
+
+    (2) equation_list -> equation .
+    (3) equation_list -> equation . LBREAK equation_list
+
+    $end            reduce using rule 2 (equation_list -> equation .)
+    LBREAK          shift and go to state 6
+
+
+state 4
+
+    (4) equation -> differential . EQUAL expression
+
+    EQUAL           shift and go to state 7
+
+
+state 5
+
+    (5) differential -> FRAC . OCUR DIF identifier CCUR OCUR DIF identifier CCUR
+
+    OCUR            shift and go to state 8
+
+
+state 6
+
+    (3) equation_list -> equation LBREAK . equation_list
+    (2) equation_list -> . equation
+    (3) equation_list -> . equation LBREAK equation_list
+    (4) equation -> . differential EQUAL expression
+    (5) differential -> . FRAC OCUR DIF identifier CCUR OCUR DIF identifier CCUR
+
+    FRAC            shift and go to state 5
+
+    equation                       shift and go to state 3
+    equation_list                  shift and go to state 9
+    differential                   shift and go to state 4
+
+state 7
+
+    (4) equation -> differential EQUAL . expression
+    (7) expression -> . arith
+    (8) expression -> . MINUS expression
+    (9) arith -> . term
+    (10) arith -> . arith PLUS term
+    (11) arith -> . arith MINUS term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    MINUS           shift and go to state 12
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    expression                     shift and go to state 10
+    arith                          shift and go to state 11
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 8
+
+    (5) differential -> FRAC OCUR . DIF identifier CCUR OCUR DIF identifier CCUR
+
+    DIF             shift and go to state 25
+
+
+state 9
+
+    (3) equation_list -> equation LBREAK equation_list .
+
+    $end            reduce using rule 3 (equation_list -> equation LBREAK equation_list .)
+
+
+state 10
+
+    (4) equation -> differential EQUAL expression .
+
+    LBREAK          reduce using rule 4 (equation -> differential EQUAL expression .)
+    $end            reduce using rule 4 (equation -> differential EQUAL expression .)
+
+
+state 11
+
+    (7) expression -> arith .
+    (10) arith -> arith . PLUS term
+    (11) arith -> arith . MINUS term
+
+    LBREAK          reduce using rule 7 (expression -> arith .)
+    $end            reduce using rule 7 (expression -> arith .)
+    CPAR            reduce using rule 7 (expression -> arith .)
+    CCUR            reduce using rule 7 (expression -> arith .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 27
+
+
+state 12
+
+    (8) expression -> MINUS . expression
+    (7) expression -> . arith
+    (8) expression -> . MINUS expression
+    (9) arith -> . term
+    (10) arith -> . arith PLUS term
+    (11) arith -> . arith MINUS term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    MINUS           shift and go to state 12
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    expression                     shift and go to state 28
+    arith                          shift and go to state 11
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 13
+
+    (9) arith -> term .
+    (12) term -> term . STAR factor
+
+    PLUS            reduce using rule 9 (arith -> term .)
+    MINUS           reduce using rule 9 (arith -> term .)
+    LBREAK          reduce using rule 9 (arith -> term .)
+    $end            reduce using rule 9 (arith -> term .)
+    CPAR            reduce using rule 9 (arith -> term .)
+    CCUR            reduce using rule 9 (arith -> term .)
+    STAR            shift and go to state 29
+
+
+state 14
+
+    (14) idlist -> factor . idlist
+    (15) idlist -> factor .
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    STAR            reduce using rule 15 (idlist -> factor .)
+    PLUS            reduce using rule 15 (idlist -> factor .)
+    MINUS           reduce using rule 15 (idlist -> factor .)
+    LBREAK          reduce using rule 15 (idlist -> factor .)
+    $end            reduce using rule 15 (idlist -> factor .)
+    CPAR            reduce using rule 15 (idlist -> factor .)
+    CCUR            reduce using rule 15 (idlist -> factor .)
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 30
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 15
+
+    (13) term -> idlist .
+
+    STAR            reduce using rule 13 (term -> idlist .)
+    PLUS            reduce using rule 13 (term -> idlist .)
+    MINUS           reduce using rule 13 (term -> idlist .)
+    LBREAK          reduce using rule 13 (term -> idlist .)
+    $end            reduce using rule 13 (term -> idlist .)
+    CPAR            reduce using rule 13 (term -> idlist .)
+    CCUR            reduce using rule 13 (term -> idlist .)
+
+
+state 16
+
+    (16) factor -> fraction .
+
+    NUMBER          reduce using rule 16 (factor -> fraction .)
+    OPAR            reduce using rule 16 (factor -> fraction .)
+    PERCENT         reduce using rule 16 (factor -> fraction .)
+    FRAC            reduce using rule 16 (factor -> fraction .)
+    SYMBOL          reduce using rule 16 (factor -> fraction .)
+    MACRO           reduce using rule 16 (factor -> fraction .)
+    STAR            reduce using rule 16 (factor -> fraction .)
+    PLUS            reduce using rule 16 (factor -> fraction .)
+    MINUS           reduce using rule 16 (factor -> fraction .)
+    LBREAK          reduce using rule 16 (factor -> fraction .)
+    $end            reduce using rule 16 (factor -> fraction .)
+    CPAR            reduce using rule 16 (factor -> fraction .)
+    CCUR            reduce using rule 16 (factor -> fraction .)
+
+
+state 17
+
+    (17) factor -> NUMBER .
+
+    NUMBER          reduce using rule 17 (factor -> NUMBER .)
+    OPAR            reduce using rule 17 (factor -> NUMBER .)
+    PERCENT         reduce using rule 17 (factor -> NUMBER .)
+    FRAC            reduce using rule 17 (factor -> NUMBER .)
+    SYMBOL          reduce using rule 17 (factor -> NUMBER .)
+    MACRO           reduce using rule 17 (factor -> NUMBER .)
+    STAR            reduce using rule 17 (factor -> NUMBER .)
+    PLUS            reduce using rule 17 (factor -> NUMBER .)
+    MINUS           reduce using rule 17 (factor -> NUMBER .)
+    LBREAK          reduce using rule 17 (factor -> NUMBER .)
+    $end            reduce using rule 17 (factor -> NUMBER .)
+    CPAR            reduce using rule 17 (factor -> NUMBER .)
+    CCUR            reduce using rule 17 (factor -> NUMBER .)
+
+
+state 18
+
+    (18) factor -> OPAR . expression CPAR
+    (7) expression -> . arith
+    (8) expression -> . MINUS expression
+    (9) arith -> . term
+    (10) arith -> . arith PLUS term
+    (11) arith -> . arith MINUS term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    MINUS           shift and go to state 12
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    expression                     shift and go to state 31
+    arith                          shift and go to state 11
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 19
+
+    (19) factor -> identifier .
+
+    NUMBER          reduce using rule 19 (factor -> identifier .)
+    OPAR            reduce using rule 19 (factor -> identifier .)
+    PERCENT         reduce using rule 19 (factor -> identifier .)
+    FRAC            reduce using rule 19 (factor -> identifier .)
+    SYMBOL          reduce using rule 19 (factor -> identifier .)
+    MACRO           reduce using rule 19 (factor -> identifier .)
+    STAR            reduce using rule 19 (factor -> identifier .)
+    PLUS            reduce using rule 19 (factor -> identifier .)
+    MINUS           reduce using rule 19 (factor -> identifier .)
+    LBREAK          reduce using rule 19 (factor -> identifier .)
+    $end            reduce using rule 19 (factor -> identifier .)
+    CPAR            reduce using rule 19 (factor -> identifier .)
+    CCUR            reduce using rule 19 (factor -> identifier .)
+
+
+state 20
+
+    (20) factor -> PERCENT . identifier
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    identifier                     shift and go to state 32
+    atom                           shift and go to state 22
+
+state 21
+
+    (6) fraction -> FRAC . OCUR expression CCUR OCUR expression CCUR
+
+    OCUR            shift and go to state 33
+
+
+state 22
+
+    (21) identifier -> atom .
+    (24) identifier -> atom . UNDER atom
+    (25) identifier -> atom . UNDER NUMBER
+    (26) identifier -> atom . UNDER OCUR identifier CCUR
+
+    NUMBER          reduce using rule 21 (identifier -> atom .)
+    OPAR            reduce using rule 21 (identifier -> atom .)
+    PERCENT         reduce using rule 21 (identifier -> atom .)
+    FRAC            reduce using rule 21 (identifier -> atom .)
+    SYMBOL          reduce using rule 21 (identifier -> atom .)
+    MACRO           reduce using rule 21 (identifier -> atom .)
+    STAR            reduce using rule 21 (identifier -> atom .)
+    PLUS            reduce using rule 21 (identifier -> atom .)
+    MINUS           reduce using rule 21 (identifier -> atom .)
+    LBREAK          reduce using rule 21 (identifier -> atom .)
+    $end            reduce using rule 21 (identifier -> atom .)
+    CPAR            reduce using rule 21 (identifier -> atom .)
+    CCUR            reduce using rule 21 (identifier -> atom .)
+    UNDER           shift and go to state 34
+
+
+state 23
+
+    (22) atom -> SYMBOL .
+
+    UNDER           reduce using rule 22 (atom -> SYMBOL .)
+    NUMBER          reduce using rule 22 (atom -> SYMBOL .)
+    OPAR            reduce using rule 22 (atom -> SYMBOL .)
+    PERCENT         reduce using rule 22 (atom -> SYMBOL .)
+    FRAC            reduce using rule 22 (atom -> SYMBOL .)
+    SYMBOL          reduce using rule 22 (atom -> SYMBOL .)
+    MACRO           reduce using rule 22 (atom -> SYMBOL .)
+    STAR            reduce using rule 22 (atom -> SYMBOL .)
+    PLUS            reduce using rule 22 (atom -> SYMBOL .)
+    MINUS           reduce using rule 22 (atom -> SYMBOL .)
+    LBREAK          reduce using rule 22 (atom -> SYMBOL .)
+    $end            reduce using rule 22 (atom -> SYMBOL .)
+    CPAR            reduce using rule 22 (atom -> SYMBOL .)
+    CCUR            reduce using rule 22 (atom -> SYMBOL .)
+
+
+state 24
+
+    (23) atom -> MACRO .
+
+    UNDER           reduce using rule 23 (atom -> MACRO .)
+    NUMBER          reduce using rule 23 (atom -> MACRO .)
+    OPAR            reduce using rule 23 (atom -> MACRO .)
+    PERCENT         reduce using rule 23 (atom -> MACRO .)
+    FRAC            reduce using rule 23 (atom -> MACRO .)
+    SYMBOL          reduce using rule 23 (atom -> MACRO .)
+    MACRO           reduce using rule 23 (atom -> MACRO .)
+    STAR            reduce using rule 23 (atom -> MACRO .)
+    PLUS            reduce using rule 23 (atom -> MACRO .)
+    MINUS           reduce using rule 23 (atom -> MACRO .)
+    LBREAK          reduce using rule 23 (atom -> MACRO .)
+    $end            reduce using rule 23 (atom -> MACRO .)
+    CPAR            reduce using rule 23 (atom -> MACRO .)
+    CCUR            reduce using rule 23 (atom -> MACRO .)
+
+
+state 25
+
+    (5) differential -> FRAC OCUR DIF . identifier CCUR OCUR DIF identifier CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    identifier                     shift and go to state 35
+    atom                           shift and go to state 22
+
+state 26
+
+    (10) arith -> arith PLUS . term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    term                           shift and go to state 36
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 27
+
+    (11) arith -> arith MINUS . term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    term                           shift and go to state 37
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 28
+
+    (8) expression -> MINUS expression .
+
+    LBREAK          reduce using rule 8 (expression -> MINUS expression .)
+    $end            reduce using rule 8 (expression -> MINUS expression .)
+    CPAR            reduce using rule 8 (expression -> MINUS expression .)
+    CCUR            reduce using rule 8 (expression -> MINUS expression .)
+
+
+state 29
+
+    (12) term -> term STAR . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    factor                         shift and go to state 38
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 30
+
+    (14) idlist -> factor idlist .
+
+    STAR            reduce using rule 14 (idlist -> factor idlist .)
+    PLUS            reduce using rule 14 (idlist -> factor idlist .)
+    MINUS           reduce using rule 14 (idlist -> factor idlist .)
+    LBREAK          reduce using rule 14 (idlist -> factor idlist .)
+    $end            reduce using rule 14 (idlist -> factor idlist .)
+    CPAR            reduce using rule 14 (idlist -> factor idlist .)
+    CCUR            reduce using rule 14 (idlist -> factor idlist .)
+
+
+state 31
+
+    (18) factor -> OPAR expression . CPAR
+
+    CPAR            shift and go to state 39
+
+
+state 32
+
+    (20) factor -> PERCENT identifier .
+
+    NUMBER          reduce using rule 20 (factor -> PERCENT identifier .)
+    OPAR            reduce using rule 20 (factor -> PERCENT identifier .)
+    PERCENT         reduce using rule 20 (factor -> PERCENT identifier .)
+    FRAC            reduce using rule 20 (factor -> PERCENT identifier .)
+    SYMBOL          reduce using rule 20 (factor -> PERCENT identifier .)
+    MACRO           reduce using rule 20 (factor -> PERCENT identifier .)
+    STAR            reduce using rule 20 (factor -> PERCENT identifier .)
+    PLUS            reduce using rule 20 (factor -> PERCENT identifier .)
+    MINUS           reduce using rule 20 (factor -> PERCENT identifier .)
+    LBREAK          reduce using rule 20 (factor -> PERCENT identifier .)
+    $end            reduce using rule 20 (factor -> PERCENT identifier .)
+    CPAR            reduce using rule 20 (factor -> PERCENT identifier .)
+    CCUR            reduce using rule 20 (factor -> PERCENT identifier .)
+
+
+state 33
+
+    (6) fraction -> FRAC OCUR . expression CCUR OCUR expression CCUR
+    (7) expression -> . arith
+    (8) expression -> . MINUS expression
+    (9) arith -> . term
+    (10) arith -> . arith PLUS term
+    (11) arith -> . arith MINUS term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    MINUS           shift and go to state 12
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    expression                     shift and go to state 40
+    arith                          shift and go to state 11
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 34
+
+    (24) identifier -> atom UNDER . atom
+    (25) identifier -> atom UNDER . NUMBER
+    (26) identifier -> atom UNDER . OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    NUMBER          shift and go to state 42
+    OCUR            shift and go to state 43
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    atom                           shift and go to state 41
+
+state 35
+
+    (5) differential -> FRAC OCUR DIF identifier . CCUR OCUR DIF identifier CCUR
+
+    CCUR            shift and go to state 44
+
+
+state 36
+
+    (10) arith -> arith PLUS term .
+    (12) term -> term . STAR factor
+
+    PLUS            reduce using rule 10 (arith -> arith PLUS term .)
+    MINUS           reduce using rule 10 (arith -> arith PLUS term .)
+    LBREAK          reduce using rule 10 (arith -> arith PLUS term .)
+    $end            reduce using rule 10 (arith -> arith PLUS term .)
+    CPAR            reduce using rule 10 (arith -> arith PLUS term .)
+    CCUR            reduce using rule 10 (arith -> arith PLUS term .)
+    STAR            shift and go to state 29
+
+
+state 37
+
+    (11) arith -> arith MINUS term .
+    (12) term -> term . STAR factor
+
+    PLUS            reduce using rule 11 (arith -> arith MINUS term .)
+    MINUS           reduce using rule 11 (arith -> arith MINUS term .)
+    LBREAK          reduce using rule 11 (arith -> arith MINUS term .)
+    $end            reduce using rule 11 (arith -> arith MINUS term .)
+    CPAR            reduce using rule 11 (arith -> arith MINUS term .)
+    CCUR            reduce using rule 11 (arith -> arith MINUS term .)
+    STAR            shift and go to state 29
+
+
+state 38
+
+    (12) term -> term STAR factor .
+
+    STAR            reduce using rule 12 (term -> term STAR factor .)
+    PLUS            reduce using rule 12 (term -> term STAR factor .)
+    MINUS           reduce using rule 12 (term -> term STAR factor .)
+    LBREAK          reduce using rule 12 (term -> term STAR factor .)
+    $end            reduce using rule 12 (term -> term STAR factor .)
+    CPAR            reduce using rule 12 (term -> term STAR factor .)
+    CCUR            reduce using rule 12 (term -> term STAR factor .)
+
+
+state 39
+
+    (18) factor -> OPAR expression CPAR .
+
+    NUMBER          reduce using rule 18 (factor -> OPAR expression CPAR .)
+    OPAR            reduce using rule 18 (factor -> OPAR expression CPAR .)
+    PERCENT         reduce using rule 18 (factor -> OPAR expression CPAR .)
+    FRAC            reduce using rule 18 (factor -> OPAR expression CPAR .)
+    SYMBOL          reduce using rule 18 (factor -> OPAR expression CPAR .)
+    MACRO           reduce using rule 18 (factor -> OPAR expression CPAR .)
+    STAR            reduce using rule 18 (factor -> OPAR expression CPAR .)
+    PLUS            reduce using rule 18 (factor -> OPAR expression CPAR .)
+    MINUS           reduce using rule 18 (factor -> OPAR expression CPAR .)
+    LBREAK          reduce using rule 18 (factor -> OPAR expression CPAR .)
+    $end            reduce using rule 18 (factor -> OPAR expression CPAR .)
+    CPAR            reduce using rule 18 (factor -> OPAR expression CPAR .)
+    CCUR            reduce using rule 18 (factor -> OPAR expression CPAR .)
+
+
+state 40
+
+    (6) fraction -> FRAC OCUR expression . CCUR OCUR expression CCUR
+
+    CCUR            shift and go to state 45
+
+
+state 41
+
+    (24) identifier -> atom UNDER atom .
+
+    NUMBER          reduce using rule 24 (identifier -> atom UNDER atom .)
+    OPAR            reduce using rule 24 (identifier -> atom UNDER atom .)
+    PERCENT         reduce using rule 24 (identifier -> atom UNDER atom .)
+    FRAC            reduce using rule 24 (identifier -> atom UNDER atom .)
+    SYMBOL          reduce using rule 24 (identifier -> atom UNDER atom .)
+    MACRO           reduce using rule 24 (identifier -> atom UNDER atom .)
+    STAR            reduce using rule 24 (identifier -> atom UNDER atom .)
+    PLUS            reduce using rule 24 (identifier -> atom UNDER atom .)
+    MINUS           reduce using rule 24 (identifier -> atom UNDER atom .)
+    LBREAK          reduce using rule 24 (identifier -> atom UNDER atom .)
+    $end            reduce using rule 24 (identifier -> atom UNDER atom .)
+    CPAR            reduce using rule 24 (identifier -> atom UNDER atom .)
+    CCUR            reduce using rule 24 (identifier -> atom UNDER atom .)
+
+
+state 42
+
+    (25) identifier -> atom UNDER NUMBER .
+
+    NUMBER          reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    OPAR            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    PERCENT         reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    FRAC            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    SYMBOL          reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    MACRO           reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    STAR            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    PLUS            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    MINUS           reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    LBREAK          reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    $end            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    CPAR            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+    CCUR            reduce using rule 25 (identifier -> atom UNDER NUMBER .)
+
+
+state 43
+
+    (26) identifier -> atom UNDER OCUR . identifier CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    atom                           shift and go to state 22
+    identifier                     shift and go to state 46
+
+state 44
+
+    (5) differential -> FRAC OCUR DIF identifier CCUR . OCUR DIF identifier CCUR
+
+    OCUR            shift and go to state 47
+
+
+state 45
+
+    (6) fraction -> FRAC OCUR expression CCUR . OCUR expression CCUR
+
+    OCUR            shift and go to state 48
+
+
+state 46
+
+    (26) identifier -> atom UNDER OCUR identifier . CCUR
+
+    CCUR            shift and go to state 49
+
+
+state 47
+
+    (5) differential -> FRAC OCUR DIF identifier CCUR OCUR . DIF identifier CCUR
+
+    DIF             shift and go to state 50
+
+
+state 48
+
+    (6) fraction -> FRAC OCUR expression CCUR OCUR . expression CCUR
+    (7) expression -> . arith
+    (8) expression -> . MINUS expression
+    (9) arith -> . term
+    (10) arith -> . arith PLUS term
+    (11) arith -> . arith MINUS term
+    (12) term -> . term STAR factor
+    (13) term -> . idlist
+    (14) idlist -> . factor idlist
+    (15) idlist -> . factor
+    (16) factor -> . fraction
+    (17) factor -> . NUMBER
+    (18) factor -> . OPAR expression CPAR
+    (19) factor -> . identifier
+    (20) factor -> . PERCENT identifier
+    (6) fraction -> . FRAC OCUR expression CCUR OCUR expression CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    MINUS           shift and go to state 12
+    NUMBER          shift and go to state 17
+    OPAR            shift and go to state 18
+    PERCENT         shift and go to state 20
+    FRAC            shift and go to state 21
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    expression                     shift and go to state 51
+    arith                          shift and go to state 11
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+    idlist                         shift and go to state 15
+    fraction                       shift and go to state 16
+    identifier                     shift and go to state 19
+    atom                           shift and go to state 22
+
+state 49
+
+    (26) identifier -> atom UNDER OCUR identifier CCUR .
+
+    NUMBER          reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    OPAR            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    PERCENT         reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    FRAC            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    SYMBOL          reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    MACRO           reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    STAR            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    PLUS            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    MINUS           reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    LBREAK          reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    $end            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    CPAR            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+    CCUR            reduce using rule 26 (identifier -> atom UNDER OCUR identifier CCUR .)
+
+
+state 50
+
+    (5) differential -> FRAC OCUR DIF identifier CCUR OCUR DIF . identifier CCUR
+    (21) identifier -> . atom
+    (24) identifier -> . atom UNDER atom
+    (25) identifier -> . atom UNDER NUMBER
+    (26) identifier -> . atom UNDER OCUR identifier CCUR
+    (22) atom -> . SYMBOL
+    (23) atom -> . MACRO
+
+    SYMBOL          shift and go to state 23
+    MACRO           shift and go to state 24
+
+    identifier                     shift and go to state 52
+    atom                           shift and go to state 22
+
+state 51
+
+    (6) fraction -> FRAC OCUR expression CCUR OCUR expression . CCUR
+
+    CCUR            shift and go to state 53
+
+
+state 52
+
+    (5) differential -> FRAC OCUR DIF identifier CCUR OCUR DIF identifier . CCUR
+
+    CCUR            shift and go to state 54
+
+
+state 53
+
+    (6) fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .
+
+    NUMBER          reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    OPAR            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    PERCENT         reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    FRAC            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    SYMBOL          reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    MACRO           reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    STAR            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    PLUS            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    MINUS           reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    LBREAK          reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    $end            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    CPAR            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+    CCUR            reduce using rule 6 (fraction -> FRAC OCUR expression CCUR OCUR expression CCUR .)
+
+
+state 54
+
+    (5) differential -> FRAC OCUR DIF identifier CCUR OCUR DIF identifier CCUR .
+
+    EQUAL           reduce using rule 5 (differential -> FRAC OCUR DIF identifier CCUR OCUR DIF identifier CCUR .)
+

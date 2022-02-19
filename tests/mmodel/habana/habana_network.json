@@ -1,0 +1,311 @@
+{
+    "graph": {
+        "directed" : false,
+        "nodes" : {
+            "0" : {
+                "label" : "Regla",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "1" : {
+                "label" : "La Lisa",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "2" : {
+                "label" : "Playa",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "3" : {
+                "label" : "Marianao",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "4" : {
+                "label" : "Boyeros",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            }
+            ,
+            "5" : {
+                "label" : "Arroyo Naranjo",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "6" : {
+                "label" : "Diez de Octubre",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "7" : {
+                "label" : "Cerro",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "8" : {
+                "label" : "Plaza de la Revolución",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "9" : {
+                "label" : "Centro Habana",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "10" : {
+                "label" : "La Habana Vieja",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            }
+            ,
+            "11" : {
+                "label" : "San Miguel del Padrón",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "12" : {
+                "label" : "Cotorro",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "13" : {
+                "label" : "Guanabacoa",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
+            "14" : {
+                "label" : "Habana del Este",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            }
+        },
+        "edges": [
+            {
+                "source" : "1",
+                "target" : "2",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "2",
+                "target" : "1",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "1",
+                "target" : "3",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "3",
+                "target" : "1",
+                "metadata" : {"weight" : 0.2}
+            },
+            {
+                "source" : "1",
+                "target" : "4",
+                "metadata" : {"weight" : 0.3}
+            },
+            {
+                "source" : "4",
+                "target" : "1",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "3",
+                "target" : "2",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "2",
+                "target" : "3",
+                "metadata" : {"weight" : 0.8}
+            },
+            {
+                "source" : "8",
+                "target" : "2",
+                "metadata" : {"weight" : 0.7}
+            },
+            {
+                "source" : "2",
+                "target" : "8",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "3",
+                "target" : "4",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "4",
+                "target" : "3",
+                "metadata" : {"weight" : 0.8}
+            },
+            {
+                "source" : "3",
+                "target" : "7",
+                "metadata" : {"weight" : 0.2}
+            },
+            {
+                "source" : "7",
+                "target" : "3",
+                "metadata" : {"weight" : 0.7}
+            },
+            {
+                "source" : "7",
+                "target" : "4",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "4",
+                "target" : "7",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "5",
+                "target" : "4",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "4",
+                "target" : "5",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "5",
+                "target" : "6",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "6",
+                "target" : "5",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "5",
+                "target" : "11",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "11",
+                "target" : "5",
+                "metadata" : {"weight" : 0.2}
+            },
+            {
+                "source" : "5",
+                "target" : "12",
+                "metadata" : {"weight" : 0.3}
+            },
+            {
+                "source" : "4",
+                "target" : "12",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "7",
+                "target" : "6",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "6",
+                "target" : "7",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "10",
+                "target" : "6",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "6",
+                "target" : "10",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "11",
+                "target" : "6",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "6",
+                "target" : "11",
+                "metadata" : {"weight" : 0.6}
+            },
+            {
+                "source" : "7",
+                "target" : "8",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "8",
+                "target" : "7",
+                "metadata" : {"weight" : 0.2}
+            },
+            {
+                "source" : "7",
+                "target" : "9",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "9",
+                "target" : "7",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "7",
+                "target" : "10",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "10",
+                "target" : "7",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "0",
+                "target" : "13",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "13",
+                "target" : "0",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "14",
+                "target" : "13",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "13",
+                "target" : "14",
+                "metadata" : {"weight" : 0.1}
+            },
+            {
+                "source" : "12",
+                "target" : "13",
+                "metadata" : {"weight" : 0.5}
+            },
+            {
+                "source" : "13",
+                "target" : "12",
+                "metadata" : {"weight" : 0.1}
+            }
+        ]
+    }
+}
