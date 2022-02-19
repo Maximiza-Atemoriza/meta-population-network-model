@@ -2,6 +2,12 @@
     "graph": {
         "directed" : false,
         "nodes" : {
+            "0" : {
+                "label" : "Regla",
+                "metadata" : {
+                    "cmodel" : "SIR"
+                }
+            },
             "1" : {
                 "label" : "La Lisa",
                 "metadata" : {
@@ -88,14 +94,6 @@
                     "cmodel" : "SIR"
                 }
             }
-            ,
-            "15" : {
-                "label" : "Regla",
-                "metadata" : {
-                    "cmodel" : "SIR"
-                }
-            }
-            
         },
         "edges": [
             {
@@ -279,13 +277,13 @@
                 "metadata" : {"weight" : 0.1}
             },
             {
-                "source" : "15",
+                "source" : "0",
                 "target" : "13",
                 "metadata" : {"weight" : 0.5}
             },
             {
                 "source" : "13",
-                "target" : "15",
+                "target" : "0",
                 "metadata" : {"weight" : 0.1}
             },
             {
