@@ -8,6 +8,7 @@ from dash import Input, Output, State, dcc, html
 import plotly.graph_objects as go
 import numpy as np
 from mmodel.flux import FluxMetaModel
+from mmodel.simple_trip import SimpleTripMetaModel
 from app import app
 from mmodel.mmodel import MetaModel
 from dash_app.graph_gen import show_simulation
@@ -306,11 +307,20 @@ def load_input_model(n_clicks, file_path, model_name, model_type):
             )
             return fail, []
     else:
-        fail = dbc.Col(
-            dbc.Alert("Invalid Meta-Model type", color="warning", dismissable=True),
-            md=10,
-        )
-        return fail, []
+        try:
+            model = SimpleTripMetaModel(model_name, file_path)
+        except (AttributeError, FileNotFoundError) as err:
+            text = "Configuration file is not set." if file_path is None else ""
+            text = "File not found." if isinstance(err, FileNotFoundError) else ""
+            fail = dbc.Col(
+                dbc.Alert(
+                    f"Could not load meta-model. {text}",
+                    color="warning",
+                    dismissable=True,
+                ),
+                md=10,
+            )
+            return fail, []
 
     success = dbc.Col(
         dbc.Alert("Meta-Model loaded successfuly", color="success", dismissable=True),
