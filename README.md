@@ -21,3 +21,17 @@ Once installed in your system execute:
 ```bash
 make docker # This will build the docker image and start a container from it
 ```
+
+### Python
+
+Using only python. Install dependencies with:
+
+```bash
+pip3 install -r requirements.txt
+```
+
+Execute with:
+
+```bash
+python ./src/index.py
+```
